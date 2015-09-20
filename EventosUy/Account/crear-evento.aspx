@@ -1,17 +1,17 @@
-﻿<%@ Page Title="Registrarse" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Register.aspx.cs" Inherits="Account_Register" %>
+﻿<%@ Page Title="Crear Evento" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="crear-evento.aspx.cs" Inherits="Account_crear_evento" Async="true" %>
+
 
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
     <h2><%: Title %>.</h2>
     <p class="text-danger">
         <asp:Literal runat="server" ID="ErrorMessage" />
     </p>
-
     <div class="form-horizontal">
-        <h4>hola         Cree una cuenta nueva para Empresas/Promotores.</h4>
+        <h4>Complete el formulario para crear un nevo evento.</h4>
         <hr />
         <asp:ValidationSummary runat="server" CssClass="text-danger" />
 
-        <!-- NOMBRE EMPRESA -->
+       <%-- <!-- NOMBRE EMPRESA -->
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="EmpresaName" CssClass="col-md-2 control-label">Nombre Empresa</asp:Label>
             <div class="col-md-10">
@@ -88,8 +88,7 @@
                 <asp:Button runat="server" OnClick="btnAltaEmpresa" Text="Registrarse" CssClass="btn btn-default" />
             </div>
         </div>
-        <!-- BTN REGISTRO EMPRESA -->
-
+        <!-- BTN REGISTRO EMPRESA -->--%>
 
     </div>
 </asp:Content>
