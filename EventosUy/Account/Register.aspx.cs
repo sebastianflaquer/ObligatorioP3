@@ -9,7 +9,7 @@ public partial class Account_Register : Page
 
     protected void btnAltaEmpresa(object sender, EventArgs e)
     {
-    
+
         // FALTA - hay que validar primero la pagina
         //Page.Validate();
 
@@ -19,12 +19,11 @@ public partial class Account_Register : Page
         //}
         Empresa.Instancia.GuardarEmpresa(
             EmpresaName.Text,
-            EmpresaPassword.Text,
-            EmpresaConfirmPassword.Text,
             EmpresaTelefono.Text,
             EmpresaMailPublico.Text,
             EmpresaMailAdicional.Text,
-            EmpresaUrl
+            EmpresaUrl.Text,
+            EmpresaPassword.Text
         );
     }
 
