@@ -84,7 +84,7 @@ public class Empresa
         SqlCommand cmd = new SqlCommand();
         cmd.CommandType = CommandType.StoredProcedure;
         //indico que voy a ejecutar un procedimiento almacenado en la bd
-        cmd.CommandText = "Restaurantes_SelectAll";//indico el nombre del procedimiento almacenado a ejecutar
+        cmd.CommandText = "Empresas_SelectAll";//indico el nombre del procedimiento almacenado a ejecutar
 
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
@@ -102,17 +102,41 @@ public class Empresa
             Empresa r = new Empresa();
             r.mNombre = drResults["nombreEmpresa"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
             r.mTelefono = drResults["telEmpresa"].ToString();
-            r.mTelefono = drResults["mailPrimario"].ToString();
-            r.mTelefono = drResults["mailAdicional"].ToString();
-            r.mTelefono = drResults["Url"].ToString();
+            r.mMailPublico = drResults["mailPrimario"].ToString();
+            r.mMailsAdicionales = drResults["mailAdicional"].ToString();
+            r.mUrl = drResults["Url"].ToString();
             lst.Add(r);
         }
         drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
         cn.Close(); //cerramos la conexion explicitamente
         return lst;
     }
+
+        
+
+    public string CargarDatos()
+    {
+        List<Empresa> listarEmpresas = Empresa.listarEmpresas();
+
+        string retorno = "";
+
+        foreach (Empresa unaEmpresa in listarEmpresas)
+        {
+
+            retorno += "<tr><th scope='row'>" + "</th>";
+            retorno += "<td>" + unaEmpresa.mNombre + "</td>";
+            retorno += "<td>" + unaEmpresa.mTelefono + "</td>";
+            retorno += "<td>" + unaEmpresa.mMailPublico + "</td>";
+            retorno += "<td>" + unaEmpresa.mMailsAdicionales + "</td>";
+            retorno += "<td>" + unaEmpresa.mUrl + "</td>";
+
+            //Cierra el Row
+            retorno += "</tr>";
+        }
+
+        return retorno;
     //
     // TODO: Agregar aquí la lógica del constructor
     //
-
+    }
 }

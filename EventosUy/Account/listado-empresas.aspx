@@ -8,6 +8,10 @@
 
     <!-- Listado de Empresa -->
     <h2><%: Title %>.</h2>
+    
+    
+    <div  runat="server"></div>
+        
     <div class="md-content-tebale-empresa">
         <table class="table table-bordered">
           <thead>
@@ -21,7 +25,7 @@
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="pepe" runat="server">
             <tr>
               <th scope="row">1</th>
               <td></td>
