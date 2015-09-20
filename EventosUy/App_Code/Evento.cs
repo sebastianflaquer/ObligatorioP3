@@ -43,7 +43,7 @@ public class Evento
     }
 
     //Guargua el objeto Empresa
-    public void GuardarEvento(string Titulo, string Descripcion, string NombreArtista, string Fecha, string Hora, string NombreLugar, string DireccionLugar, string Imagen, string Precio)
+    public void GuardarEvento(string Titulo, string Descripcion, string NombreArtista, string Fecha, string Hora, string NombreLugar, string DireccionLugar, System.IO.Stream Imagen, string Precio)
     {
         //string de conexion
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
@@ -68,6 +68,7 @@ public class Evento
                 cmd.Parameters.Add(new SqlParameter("@Imagen", Imagen));
                 cmd.Parameters.Add(new SqlParameter("@Precio", Precio));//aca va la lista
                 cmd.Parameters.Add(new SqlParameter("@Estado", "A"));
+                //cmd.Parameters.Add(new SqlParameter("@idEmpresa", "1"));
                 cn.Open();//abrimos conexion
                 afectadas = cmd.ExecuteNonQuery();//ejecutamos la consulta y capturamos nro de filas afectadas
                 cn.Close();//cerramos conexion
@@ -82,4 +83,5 @@ public class Evento
 
         }
     }
+
 }

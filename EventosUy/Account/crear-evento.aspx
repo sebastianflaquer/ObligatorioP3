@@ -85,7 +85,7 @@
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="EventoImagen" CssClass="col-md-2 control-label">Imagen</asp:Label>
             <div class="col-md-10">
-                <asp:TextBox runat="server" ID="EventoImagen" CssClass="form-control" />
+                <asp:FileUpload ID="EventoImagen" runat="server" CssClass="form-control" />
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="EventoImagen" CssClass="text-danger" ErrorMessage="El campo de URL es obligatorio." />
             </div>
         </div>

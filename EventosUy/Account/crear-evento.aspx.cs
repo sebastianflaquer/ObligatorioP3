@@ -27,8 +27,8 @@ public partial class Account_crear_evento : System.Web.UI.Page
             EventoHora.Text,
             EventoNombreLugar.Text,
             EventoDireccionLugar.Text,
-            EventoImagen.Text,
-            EventoPrecio.Text
+            EventoImagen.FileContent,
+            EventoPrecio.Text            
         );
     }
 
