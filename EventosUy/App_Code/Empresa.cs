@@ -77,6 +77,40 @@ public class Empresa
         }
         return afectadas;
     }
+
+    public static List<Empresa> listarEmpresas()
+    {
+        List<Empresa> lst = new List<Empresa>();
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        //indico que voy a ejecutar un procedimiento almacenado en la bd
+        cmd.CommandText = "Restaurantes_SelectAll";//indico el nombre del procedimiento almacenado a ejecutar
+
+        SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
+
+        SqlDataReader drResults;
+
+        cmd.Connection = cn;
+        cn.Open();//abrimos la conexion
+        drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
+        //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
+
+        while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
+        {
+            Empresa r = new Empresa();
+            r.mNombre = drResults["nombreEmpresa"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
+            r.mTelefono = drResults["telEmpresa"].ToString();
+            r.mTelefono = drResults["mailPrimario"].ToString();
+            r.mTelefono = drResults["mailAdicional"].ToString();
+            r.mTelefono = drResults["Url"].ToString();
+            lst.Add(r);
+        }
+        drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
+        cn.Close(); //cerramos la conexion explicitamente
+        return lst;
+    }
     //
     // TODO: Agregar aquí la lógica del constructor
     //
