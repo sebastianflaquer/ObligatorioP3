@@ -7,7 +7,7 @@
     </p>
 
     <div class="form-horizontal">
-        <h4>hola         Cree una cuenta nueva para Empresas/Promotores.</h4>
+        <h4>Cree una cuenta nueva para Empresas/Promotores.</h4>
         <hr />
         <asp:ValidationSummary runat="server" CssClass="text-danger" />
 

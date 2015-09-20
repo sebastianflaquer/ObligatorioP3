@@ -37,20 +37,20 @@ public class Empresa
     }
 
 
-      //Guargua el objeto Empresa
-    public int GuardarEmpresa(string Nombre, string Telefono, string MailPublico, string MailsAdicionales, string Url, string Password, System.Web.UI.WebControls.TextBox textBox)
+    //Guargua el objeto Empresa
+    public int GuardarEmpresa(string Nombre, string Telefono, string MailPublico, string MailsAdicionales, string Url, string Password)
     {
         //string de conexion
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
-        
+
         //string config = ConfigurationManager.ConnectionStrings["ConexionBD"].ConnectionString; //chequee nombre de servidor, Base de datos y usuario de Sqlserver
-        
+
 
         int afectadas = 0;
         try
-        {   
+        {
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
             {
                 cmd.Connection = cn;
@@ -63,13 +63,12 @@ public class Empresa
                 cmd.Parameters.Add(new SqlParameter("@Url", Url));
                 cmd.Parameters.Add(new SqlParameter("@Password", Password));
                 cn.Open();//abrimos conexion
-                Console.Write("abrio");
                 afectadas = cmd.ExecuteNonQuery();//ejecutamos la consulta y capturamos nro de filas afectadas
                 cn.Close();//cerramos conexion
             }
         }
         catch (SqlException ex)
-        {            
+        {
             //loguear excepcion
         }
         finally
@@ -78,8 +77,8 @@ public class Empresa
         }
         return afectadas;
     }
-	//
-	// TODO: Agregar aquí la lógica del constructor
-	//
+    //
+    // TODO: Agregar aquí la lógica del constructor
+    //
 
 }
