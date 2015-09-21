@@ -13,17 +13,17 @@ public class Empresa
 {
     #region Atributos
 
-    private string mNombre { get; set; }
-    private string mTelefono { get; set; }
-    private string mMailPublico { get; set; }
-    private string mPassword { get; set; }
-    private string mMailsAdicionales { get; set; }
-    private string mUrl { get; set; }
+    public string mNombre {  get; private set; }
+    public string mTelefono { get; private set; }
+    public string mMailPublico { get; private set; }
+    public string mPassword { get; private set; }
+    public string mMailsAdicionales { get; private set; }
+    public string mUrl { get; private set; }
 
     #endregion
 
     //Lo instanciamos para poder usarlo
-    private static Empresa mInstancia;
+    public static Empresa mInstancia;
     public static Empresa Instancia
     {
         get
@@ -112,31 +112,5 @@ public class Empresa
         return lst;
     }
 
-        
-
-    public string CargarDatos()
-    {
-        List<Empresa> listarEmpresas = Empresa.listarEmpresas();
-
-        string retorno = "";
-
-        foreach (Empresa unaEmpresa in listarEmpresas)
-        {
-
-            retorno += "<tr><th scope='row'>" + "</th>";
-            retorno += "<td>" + unaEmpresa.mNombre + "</td>";
-            retorno += "<td>" + unaEmpresa.mTelefono + "</td>";
-            retorno += "<td>" + unaEmpresa.mMailPublico + "</td>";
-            retorno += "<td>" + unaEmpresa.mMailsAdicionales + "</td>";
-            retorno += "<td>" + unaEmpresa.mUrl + "</td>";
-
-            //Cierra el Row
-            retorno += "</tr>";
-        }
-
-        return retorno;
-    //
-    // TODO: Agregar aquí la lógica del constructor
-    //
-    }
+       
 }

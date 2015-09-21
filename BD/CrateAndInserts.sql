@@ -10,6 +10,7 @@ create table Empresa(
 	mailPrimario varchar(50) unique,
 	mailAdicional varchar(300),
 	Url varchar(50)
+	Password varchar(50)
 )
 
 insert into Empresa(nombreEmpresa,telEmpresa,mailPrimario,mailAdicional,Url)values
