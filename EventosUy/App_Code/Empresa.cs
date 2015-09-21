@@ -13,12 +13,12 @@ public class Empresa
 {
     #region Atributos
 
-    public string mNombre {  get; private set; }
-    public string mTelefono { get; private set; }
-    public string mMailPublico { get; private set; }
-    public string mPassword { get; private set; }
-    public string mMailsAdicionales { get; private set; }
-    public string mUrl { get; private set; }
+    private string mNombre { get; set; }
+    private string mTelefono { get; set; }
+    private string mMailPublico { get; set; }
+    private string mPassword { get; set; }
+    private string mMailsAdicionales { get; set; }
+    private string mUrl { get; private set; }
 
     #endregion
 
@@ -110,6 +110,27 @@ public class Empresa
         drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
         cn.Close(); //cerramos la conexion explicitamente
         return lst;
+    }
+
+
+    public string CargarDatos()
+    {
+        List<Empresa> listarEmpresas = Empresa.listarEmpresas();
+        string retorno = "";
+        foreach (Empresa unaEmpresa in listarEmpresas)
+        {
+
+            retorno += "<tr><th scope='row'>" + "</th>";
+            retorno += "<td>" + unaEmpresa.mNombre + "</td>";
+            retorno += "<td>" + unaEmpresa.mTelefono + "</td>";
+            retorno += "<td>" + unaEmpresa.mMailPublico + "</td>";
+            retorno += "<td>" + unaEmpresa.mMailsAdicionales + "</td>";
+            retorno += "<td>" + unaEmpresa.mUrl + "</td>";
+
+            //Cierra el Row
+            retorno += "</tr>";
+        }
+        return retorno;
     }
 
        
