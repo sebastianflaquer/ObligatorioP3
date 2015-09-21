@@ -18,7 +18,7 @@ public class Empresa
     private string mMailPublico { get; set; }
     private string mPassword { get; set; }
     private string mMailsAdicionales { get; set; }
-    private string mUrl { get; private set; }
+    private string mUrl { get; set; }
 
     #endregion
 
