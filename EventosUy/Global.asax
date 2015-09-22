@@ -11,4 +11,13 @@
         BundleConfig.RegisterBundles(BundleTable.Bundles);
     }
 
+    void Session_Start(object sender, EventArgs e)
+    {
+        Session["idEmpresa"] = "";
+        Session["logueado"] = false;
+        Session["nombre"] = "";
+        Session["email"] = "";
+        Session["tipoUsuario"] = "";
+        Session["tipoFuncionario"] = "";
+    }
 </script>
