@@ -63,6 +63,42 @@ public class UsuarioEventosUY
 
 
 
+    public bool borrarUsuario(string nombreUsuario){
+        bool retorno = false;
+
+        //string de conexion
+        string config = @"Server=.\SQLEXPRESS;DataBase=EventosUY;Trusted_Connection=true;"; //chequee nombre de servidor, Base de datos y usuario de Sqlserver
+        SqlConnection con = new SqlConnection(config); //creamos y configuramos la conexion
+
+
+        try
+        {
+            using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
+            {
+                cmd.Connection = con;
+                cmd.CommandText = "Empresa_EliminarPorNombre"; //consulta a ejecutar
+                cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
+                cmd.Parameters.Add(new SqlParameter("@nombreEmpresa", nombreUsuario));//agregamos parametros para la consulta
+                con.Open();//abrimos conexion
+                retorno = true;
+                con.Close();//cerramos conexion
+            }
+        }
+        catch (SqlException ex)
+        {
+            //loguear excepcion
+        }
+        finally
+        {
+
+        }
+
+
+        return retorno;
+    }
+
+
+
 
     public UsuarioEventosUY()
 	{

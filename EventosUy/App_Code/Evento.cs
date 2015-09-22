@@ -84,4 +84,39 @@ public class Evento
         }
     }
 
+    public bool borrarUsuario(string nombreEvento)
+    {
+        bool retorno = false;
+
+        //string de conexion
+        string config = @"Server=.\SQLEXPRESS;DataBase=EventosUY;Trusted_Connection=true;"; //chequee nombre de servidor, Base de datos y usuario de Sqlserver
+        SqlConnection con = new SqlConnection(config); //creamos y configuramos la conexion
+
+
+        try
+        {
+            using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
+            {
+                cmd.Connection = con;
+                cmd.CommandText = "Evento_EliminarPorTitulo"; //consulta a ejecutar
+                cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
+                cmd.Parameters.Add(new SqlParameter("@tituloEvento", nombreEvento));//agregamos parametros para la consulta
+                con.Open();//abrimos conexion
+                retorno = true;
+                con.Close();//cerramos conexion
+            }
+        }
+        catch (SqlException ex)
+        {
+            //loguear excepcion
+        }
+        finally
+        {
+
+        }
+
+
+        return retorno;
+    }
+
 }
