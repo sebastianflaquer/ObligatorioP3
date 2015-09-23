@@ -2,8 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     
-
-
     <hr />    
 
     <!-- Listado de Empresa -->
