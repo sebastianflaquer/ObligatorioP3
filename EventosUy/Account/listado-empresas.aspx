@@ -6,9 +6,6 @@
 
     <!-- Listado de Empresa -->
     <h2><%: Title %>.</h2>
-    
-    
-    <div  runat="server"></div>
         
     <div class="md-content-tebale-empresa">
         <table class="table table-bordered">

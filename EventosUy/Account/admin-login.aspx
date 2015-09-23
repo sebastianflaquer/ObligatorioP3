@@ -1,7 +1,8 @@
-﻿<%@ Page Title="Iniciar sesión" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="Account_Login" Async="true" %>
+﻿<%@ Page Title="Admin Login" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="admin-login.aspx.cs" Inherits="admin_login" %>
 
-<asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
-    <h2><%: Title %>.</h2>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
+
+    <h2><%: Title %></h2>
 
     <div class="row">
         <div class="col-md-8">
@@ -39,17 +40,15 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <asp:Button runat="server" OnClick="LogIn" Text="Iniciar sesión" CssClass="btn btn-default" />
+                            <asp:Button runat="server" OnClick="AdminLogIn" Text="Iniciar sesión" CssClass="btn btn-default" />
                         </div>
                     </div>
                 </div>
-                <p>
-                    <asp:HyperLink runat="server" ID="RegisterHyperLink" ViewStateMode="Disabled">Registrarse</asp:HyperLink>
-                    si no tiene una cuenta local.
-                </p>
             </section>
         </div>
-        
     </div>
+
+
+
 </asp:Content>
 
