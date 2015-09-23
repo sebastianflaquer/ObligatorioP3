@@ -12,15 +12,48 @@ using System.Data.SqlClient;
 public class Empresa
 {
     #region Atributos
-
-    private string mNombre { get; set; }
-    private string mTelefono { get; set; }
-    private string mMailPublico { get; set; }
-    private string mPassword { get; set; }
-    private string mMailsAdicionales { get; set; }
-    private string mUrl { get; set; }
+        private string mNombre;
+        private string mTelefono;
+        private string mMailPublico;
+        private string mPassword;
+        private string mMailsAdicionales;
+        private string mUrl;
 
     #endregion
+    #region Propiedades
+    public string Nombre
+    {
+        get { return mNombre; }
+        set { mNombre = value; }
+    }
+    public string Telefono
+    {
+        get { return mTelefono; }
+        set { mTelefono = value; }
+    }
+    public string MailPublico
+    {
+        get { return mMailPublico; }
+        set { mMailPublico = value; }
+    }
+    public string Password
+    {
+        get { return mPassword; }
+        set { mPassword = value; }
+    }
+    public string MailsAdicionales
+    {
+        get { return mMailsAdicionales; }
+        set { mMailsAdicionales = value; }
+    }
+
+    public string Url
+    {
+        get { return mUrl; }
+        set { mUrl = value; }
+    }
+    #endregion
+    
 
     //Lo instanciamos para poder usarlo
     public static Empresa mInstancia;

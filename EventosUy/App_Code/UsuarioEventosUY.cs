@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -98,7 +99,47 @@ public class UsuarioEventosUY
     }
 
 
+    public Empresa BuscarEmpresa(string nombreEmpresa){
 
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        //indico que voy a ejecutar un procedimiento almacenado en la bd
+        cmd.CommandText = "Empresa_BuscarPorNombre";//indico el nombre del procedimiento almacenado a ejecutar
+
+        SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
+
+        SqlDataReader drResults;
+
+        cmd.Connection = cn;
+        cn.Open();//abrimos la conexion
+        drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
+        //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
+
+        while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
+        {
+            if (drResults["nombreEmpresa"].ToString()==nombreEmpresa)
+            {
+                Empresa r = new Empresa();
+                r.Nombre = drResults["nombreEmpresa"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
+                r.Telefono = drResults["telEmpresa"].ToString();
+                r.MailPublico = drResults["mailPrimario"].ToString();
+                r.MailsAdicionales = drResults["mailAdicional"].ToString();
+                r.Url = drResults["Url"].ToString();
+                return r;
+            }
+            
+        }
+        drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
+        cn.Close(); //cerramos la conexion explicitamente
+        return lst;
+
+
+
+
+        return retorno;
+    }
 
     public UsuarioEventosUY()
 	{
