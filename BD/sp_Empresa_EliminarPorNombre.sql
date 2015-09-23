@@ -4,8 +4,10 @@ CREATE PROCEDURE Empresa_EliminarPorNombre
 	BEGIN
 		SET NOCOUNT ON
 
-		delete 
-		From Empresa
-		Where Empresa.nombreEmpresa = @nombreEmpresa
-			END
-			GO
+		EXECUTE Eliminar_EventoxEmpresa @nombreEmpresa;
+
+		DELETE FROM Empresa
+		WHERE Empresa.nombreEmpresa=@nombreEmpresa
+		
+	END
+	GO

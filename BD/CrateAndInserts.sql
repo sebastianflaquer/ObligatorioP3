@@ -4,12 +4,12 @@ use EventosUY;
 
 /* Empresa */
 create table Empresa(
-	idEmpresa int IDENTITY(1,1) primary key,
-	nombreEmpresa varchar(50),
+	idEmpresa int IDENTITY(1,1) ,
+	nombreEmpresa varchar(50) primary key,
 	telEmpresa varchar(30),
 	mailPrimario varchar(50) unique,
 	mailAdicional varchar(300),
-	Url varchar(50)
+	Url varchar(50),
 	Password varchar(50)
 )
 
@@ -31,14 +31,14 @@ create table Evento(
 	imagen varbinary(MAX),
 	precio varchar(300),
 	estado char(1),
-	idEmpresa int,
-	constraint fk_idEmpresa Foreign key (idEmpresa) references Empresa,
+	nombreEmpresa varchar(50) ,
+	constraint fk_nombreEmpresa Foreign key (nombreEmpresa) references Empresa,
 	constraint ck_estado check (estado in('C', 'D', 'A'))
 )
 
 insert into Evento (Titulo,Descripcion,NombreArtista,fecha,hora,nombreLugar,direccionLugar,imagen,precio,estado,idEmpresa)values
-	('Rock','Evento de Rock','Juan','12/05/2010','12:00:00','Lugar1','Calle 1',00000,'250','A',1),
-	('Samba','Evento de Samba','Pedro','15/12/2015','21:00:00','Lugar2','Calle 2',00000,'520','D',2)
+	('Rock','Evento de Rock','Juan','12/05/2010','12:00:00','Lugar1','Calle 1',00000,'250','A','Tata'),
+	('Samba','Evento de Samba','Pedro','15/12/2015','21:00:00','Lugar2','Calle 2',00000,'520','D','Multi')
 	
 /* Consulta de testeo */
 select *

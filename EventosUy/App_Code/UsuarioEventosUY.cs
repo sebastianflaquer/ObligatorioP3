@@ -20,10 +20,23 @@ public class UsuarioEventosUY
     private int mNroFuncionario;    
     private string mDirFisica;    
     private string mTelefono;    
-    private string mCargo;    
+    private string mCargo;
+    public static UsuarioEventosUY mInstancia;
+  
 
     #endregion
     #region Propiedades
+    public static UsuarioEventosUY Instancia
+    {
+        get
+        {
+            if (UsuarioEventosUY.mInstancia == null)
+            {
+                UsuarioEventosUY.mInstancia = new UsuarioEventosUY();
+            }
+            return UsuarioEventosUY.mInstancia;
+        }
+    }
     public string Nombre
     {
         get { return mNombre; }
@@ -113,7 +126,6 @@ public class UsuarioEventosUY
         string config = @"Server=.\SQLEXPRESS;DataBase=EventosUY;Trusted_Connection=true;"; //chequee nombre de servidor, Base de datos y usuario de Sqlserver
         SqlConnection con = new SqlConnection(config); //creamos y configuramos la conexion
 
-
         try
         {
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
@@ -123,6 +135,7 @@ public class UsuarioEventosUY
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
                 cmd.Parameters.Add(new SqlParameter("@nombreEmpresa", nombreUsuario));//agregamos parametros para la consulta
                 con.Open();//abrimos conexion
+                cmd.ExecuteNonQuery();
                 retorno = true;
                 con.Close();//cerramos conexion
             }
@@ -135,52 +148,50 @@ public class UsuarioEventosUY
         {
 
         }
-
-
         return retorno;
     }
 
 
     public Empresa BuscarEmpresa(string nombreEmpresa){
 
+        Empresa r = new Empresa();
+
         SqlCommand cmd = new SqlCommand();
         cmd.CommandType = CommandType.StoredProcedure;
         //indico que voy a ejecutar un procedimiento almacenado en la bd
-        cmd.CommandText = "Empresa_BuscarPorNombre";//indico el nombre del procedimiento almacenado a ejecutar
+        cmd.CommandText = "Empresas_SelectAll";//indico el nombre del procedimiento almacenado a ejecutar
 
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
-
         SqlDataReader drResults;
 
         cmd.Connection = cn;
         cn.Open();//abrimos la conexion
         drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
         //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
-
+        
         while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
         {
+
             if (drResults["nombreEmpresa"].ToString()==nombreEmpresa)
             {
-                Empresa r = new Empresa();
+                
                 r.Nombre = drResults["nombreEmpresa"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
                 r.Telefono = drResults["telEmpresa"].ToString();
                 r.MailPublico = drResults["mailPrimario"].ToString();
                 r.MailsAdicionales = drResults["mailAdicional"].ToString();
                 r.Url = drResults["Url"].ToString();
+                drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
+                cn.Close(); //cerramos la conexion explicitamente
                 return r;
             }
             
         }
         drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
         cn.Close(); //cerramos la conexion explicitamente
-        return lst;
-
-
-
-
-        return retorno;
+        return r;
+        
     }
 
     public UsuarioEventosUY()

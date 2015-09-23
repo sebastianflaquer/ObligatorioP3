@@ -3,21 +3,20 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     
     <hr />    
+    <p id="hola"></p>
 
     <!-- Listado de Empresa -->
-    <h2><%: Title %>.<asp:GridView ID="GridEmpresas" runat="server" AutoGenerateColumns="False" DataKeyNames="idEmpresa" DataSourceID="SqlDataSource2">
+    <h2><%: Title %>.
+        <asp:GridView ID="gridListarEmpresas" runat="server" AutoGenerateColumns="False" OnRowCommand="gridListarEmpresas_RowCommand" Width="100%">
         <Columns>
-            <asp:BoundField DataField="idEmpresa" HeaderText="idEmpresa" InsertVisible="False" ReadOnly="True" SortExpression="idEmpresa" />
-            <asp:BoundField DataField="nombreEmpresa" HeaderText="nombreEmpresa" SortExpression="nombreEmpresa" />
-            <asp:BoundField DataField="telEmpresa" HeaderText="telEmpresa" SortExpression="telEmpresa" />
-            <asp:BoundField DataField="mailPrimario" HeaderText="mailPrimario" SortExpression="mailPrimario" />
-            <asp:BoundField DataField="mailAdicional" HeaderText="mailAdicional" SortExpression="mailAdicional" />
-            <asp:BoundField DataField="Url" HeaderText="Url" SortExpression="Url" />
-            <asp:CommandField ShowDeleteButton="True" />
+            <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+            <asp:BoundField DataField="Telefono" HeaderText="Telefono" />
+            <asp:BoundField DataField="MailPublico" HeaderText="Mail Principal" />
+            <asp:BoundField DataField="MailsAdicionales" HeaderText="Mails Adicionales" />
+            <asp:BoundField DataField="URL" HeaderText="URL" />
+            <asp:ButtonField CommandName="Eliminar" Text="Eliminar" />
         </Columns>
         </asp:GridView>
-        <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:EventosUYConnectionString %>" SelectCommand="SELECT * FROM [Empresa]"></asp:SqlDataSource>
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:EventosUYConnectionString %>" SelectCommand="SELECT [idEmpresa] FROM [Empresa] ORDER BY [idEmpresa]"></asp:SqlDataSource>
     </h2>
         
     <div class="md-content-tebale-empresa">
