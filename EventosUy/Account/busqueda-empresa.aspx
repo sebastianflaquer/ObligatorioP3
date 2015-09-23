@@ -18,12 +18,21 @@
                     </asp:PlaceHolder>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtBuscar" runat="server"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <asp:Button runat="server" OnClick="BuscarEmpresa" Text="Buscar" CssClass="btn btn-default" />
+                            <asp:GridView ID="gridEmpresaBuscada" runat="server" AutoGenerateColumns="False">
+                                <Columns>
+                                    <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+                                    <asp:BoundField DataField="Telefono" HeaderText="Telefono" />
+                                    <asp:BoundField DataField="MailPublico" HeaderText="Mail Principal" />
+                                    <asp:BoundField DataField="MailsAdicionales" HeaderText="Mails Adicionales" />
+                                    <asp:BoundField DataField="Url" HeaderText="URL" />
+                                </Columns>
+                            </asp:GridView>
                         </div>
                     </div>
                 </div>
