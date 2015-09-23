@@ -13,20 +13,65 @@ public class Evento
 {
     #region Atributos
 
-    private string mEmpresaId { get; set; }
-    private string mTitulo { get; set; }
-    private string mNombreArtistas { get; set; }
-    private DateTime mFecha { get; set; }
-    private string mHora { get; set; }
-    private string mNombreLugar { get; set; }
-    private string mDireccionLugar { get; set; }
-    private string mImagen { get; set; }
+    private string mEmpresaId;
+    private string mTitulo;    
+    private string mNombreArtistas;    
+    private DateTime mFecha;    
+    private string mHora;    
+    private string mNombreLugar;    
+    private string mDireccionLugar;    
+    private string mImagen;   
     //private string List<string> mPrecio { get; set; };
-    private string mEstado { get; set; }
-
-
+    private string mEstado;
+    
     #endregion
-
+    #region Propiedades
+    public string EmpresaId
+    {
+        get { return mEmpresaId; }
+        set { mEmpresaId = value; }
+    }
+    public string Titulo
+    {
+        get { return mTitulo; }
+        set { mTitulo = value; }
+    }
+    public string NombreArtistas
+    {
+        get { return mNombreArtistas; }
+        set { mNombreArtistas = value; }
+    }
+    public DateTime Fecha
+    {
+        get { return mFecha; }
+        set { mFecha = value; }
+    }
+    public string Hora
+    {
+        get { return mHora; }
+        set { mHora = value; }
+    }
+    public string NombreLugar
+    {
+        get { return mNombreLugar; }
+        set { mNombreLugar = value; }
+    }
+    public string DireccionLugar
+    {
+        get { return mDireccionLugar; }
+        set { mDireccionLugar = value; }
+    }
+    public string Imagen
+    {
+        get { return mImagen; }
+        set { mImagen = value; }
+    }
+    public string Estado
+    {
+        get { return mEstado; }
+        set { mEstado = value; }
+    }
+    #endregion
 
     //Lo instanciamos para poder usarlo
     private static Evento mInstancia;
