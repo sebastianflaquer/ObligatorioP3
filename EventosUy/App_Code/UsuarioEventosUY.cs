@@ -13,15 +13,57 @@ public class UsuarioEventosUY
 {
     #region Atributos
 
-    private string mNombre { get; set; }
-    private string mApellido { get; set; }
-    private string mEmail { get; set; }
-    private string mPassword { get; set; }
-    private int mNroFuncionario { get; set; }
-    private string mDirFisica { get; set; }
-    private string mTelefono { get; set; }
-    private string mCargo { get; set; }
+    private string mNombre;    
+    private string mApellido;    
+    private string mEmail;    
+    private string mPassword;    
+    private int mNroFuncionario;    
+    private string mDirFisica;    
+    private string mTelefono;    
+    private string mCargo;    
 
+    #endregion
+    #region Propiedades
+    public string Nombre
+    {
+        get { return mNombre; }
+        set { mNombre = value; }
+    }
+    public string Apellido
+    {
+        get { return mApellido; }
+        set { mApellido = value; }
+    }
+    public string Email
+    {
+        get { return mEmail; }
+        set { mEmail = value; }
+    }
+    public string Password
+    {
+        get { return mPassword; }
+        set { mPassword = value; }
+    }
+    public int NroFuncionario
+    {
+        get { return mNroFuncionario; }
+        set { mNroFuncionario = value; }
+    }
+    public string DirFisica
+    {
+        get { return mDirFisica; }
+        set { mDirFisica = value; }
+    }
+    public string Telefono
+    {
+        get { return mTelefono; }
+        set { mTelefono = value; }
+    }
+    public string Cargo
+    {
+        get { return mCargo; }
+        set { mCargo = value; }
+    }
     #endregion
 
     //Guargua el objeto Empresa
