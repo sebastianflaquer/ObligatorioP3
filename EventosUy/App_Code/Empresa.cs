@@ -111,6 +111,7 @@ public class Empresa
         return afectadas;
     }
 
+    //LISTAR EMPRESAS
     public static List<Empresa> listarEmpresas()
     {
         List<Empresa> lst = new List<Empresa>();
@@ -146,6 +147,49 @@ public class Empresa
     }
 
 
+    //LISTAR EVENTOS
+    public static List<Evento> listarEvento()
+    {
+        List<Evento> lst = new List<Evento>();
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        //indico que voy a ejecutar un procedimiento almacenado en la bd
+        cmd.CommandText = "Evento_SelectAll";//indico el nombre del procedimiento almacenado a ejecutar
+
+        SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
+
+        SqlDataReader drResults;
+
+        cmd.Connection = cn;
+        cn.Open();//abrimos la conexion
+        drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+        while (drResults.Read())
+        {
+            //string retornoPrecios = "";
+            Evento r = new Evento();
+            r.Titulo = drResults["Titulo"].ToString();
+            r.Descripcion = drResults["Descripcion"].ToString();
+            r.NombreArtistas = drResults["Nombreartista"].ToString();
+            //r.Fecha = drResults["fecha"].ToString;
+            r.Hora = drResults["hora"].ToString();
+            r.NombreLugar = drResults["nombreLugar"].ToString();
+            r.DireccionLugar = drResults["direccionLugar"].ToString();
+            //r.Imagen =
+            //r.Imagen = drResults["imagen"].ToString();
+            //r.Precio.Add(drResults["precio"].ToString());
+            //r.Precio = drResults["precio"].ToString();
+            r.Estado = drResults["estado"].ToString();
+            //r.NombreEmpresa = drResults["nombreEmpresa"].ToString();
+            lst.Add(r);
+        }
+        drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
+        cn.Close(); //cerramos la conexion explicitamente
+        return lst;
+    }
+
+    //cARGAR DATOS
     public string CargarDatos()
     {
         List<Empresa> listarEmpresas = Empresa.listarEmpresas();

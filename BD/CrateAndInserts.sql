@@ -16,6 +16,9 @@ create table Empresa(
 insert into Empresa(nombreEmpresa,telEmpresa,mailPrimario,mailAdicional,Url)values
 	('Tata','099111111','Hola@tata.com','adi@tata.com;adi2@tata.com','www.tata.com'),
 	('Multi','099222222','Hola@multi.com','adi@multi.com;adi2@multi.com','www.multi.com')
+	('Disco','099222222','Hola@mDisco.com','adi@mDisco.com;adi2@Disco.com','www.multi.com')
+	('Devoto','099222222','Hola@Devoto.com','adi@Devoto.com;adi2@Devoto.com','www.Devoto.com')
+	('Kinko','099222222','Hola@Kinko.com','adi@Kinko.com;adi2@Kinko.com','www.Kinko.com')
 
 select * from Empresa
 
@@ -36,10 +39,9 @@ create table Evento(
 	constraint ck_estado check (estado in('C', 'D', 'A'))
 )
 
-insert into Evento (Titulo,Descripcion,NombreArtista,fecha,hora,nombreLugar,direccionLugar,imagen,precio,estado,idEmpresa)values
-	('Rock','Evento de Rock','Juan','12/05/2010','12:00:00','Lugar1','Calle 1',00000,'250','A','Tata'),
-	('Samba','Evento de Samba','Pedro','15/12/2015','21:00:00','Lugar2','Calle 2',00000,'520','D','Multi')
-	
+insert into Evento (Titulo,Descripcion,NombreArtista,fecha,hora,nombreLugar,direccionLugar,imagen,precio,estado,nombreEmpresa)values	
+	('Samba','Evento de Samba','Pedro','15/12/2015','21:00:00','Lugar2','Calle 2',00000,'520','D','Multi'),
+	('Rock','Evento de Rock','Juan','12/05/2010','12:00:00','Lugar1','Calle 1',00000,'250','A','Tata')
 /* Consulta de testeo */
 select *
 from Evento E, Empresa P

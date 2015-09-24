@@ -82,16 +82,18 @@ public class UsuarioEventosUY
     //Guargua el objeto Empresa
     public int GuardarUsuarioEventosUY()
     {
-        //string de conexion
-        string config = @"Server=.\SQLEXPRESS;DataBase=EventosUY;Trusted_Connection=true;"; //chequee nombre de servidor, Base de datos y usuario de Sqlserver
-        SqlConnection con = new SqlConnection(config); //creamos y configuramos la conexion
+
+
+        SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
 
         int afectadas = 0;
         try
         {
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
             {
-                cmd.Connection = con;
+                cmd.Connection = cn;
                 cmd.CommandText = "usuarioEventosUY_Insert"; //consulta a ejecutar
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
                 cmd.Parameters.Add(new SqlParameter("@NroFuncionario", this.mNroFuncionario));//agregamos parametros para la consulta
@@ -101,9 +103,9 @@ public class UsuarioEventosUY
                 cmd.Parameters.Add(new SqlParameter("@PasswordEuy", this.mPassword));
                 cmd.Parameters.Add(new SqlParameter("@Telefono", this.mTelefono));
                 cmd.Parameters.Add(new SqlParameter("@Cargo", this.mCargo));
-                con.Open();//abrimos conexion
+                cn.Open();//abrimos conexion
                 afectadas = cmd.ExecuteNonQuery();//ejecutamos la consulta y capturamos nro de filas afectadas
-                con.Close();//cerramos conexion
+                cn.Close();//cerramos conexion
             }
         }
         catch (SqlException ex)
@@ -118,26 +120,26 @@ public class UsuarioEventosUY
     }
 
 
-
+    //Borrar usuarios
     public bool borrarUsuario(string nombreUsuario){
         bool retorno = false;
 
-        //string de conexion
-        string config = @"Server=.\SQLEXPRESS;DataBase=EventosUY;Trusted_Connection=true;"; //chequee nombre de servidor, Base de datos y usuario de Sqlserver
-        SqlConnection con = new SqlConnection(config); //creamos y configuramos la conexion
+        SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
 
         try
         {
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
             {
-                cmd.Connection = con;
+                cmd.Connection = cn;
                 cmd.CommandText = "Empresa_EliminarPorNombre"; //consulta a ejecutar
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
                 cmd.Parameters.Add(new SqlParameter("@nombreEmpresa", nombreUsuario));//agregamos parametros para la consulta
-                con.Open();//abrimos conexion
+                cn.Open();//abrimos conexion
                 cmd.ExecuteNonQuery();
                 retorno = true;
-                con.Close();//cerramos conexion
+                cn.Close();//cerramos conexion
             }
         }
         catch (SqlException ex)
@@ -151,7 +153,7 @@ public class UsuarioEventosUY
         return retorno;
     }
 
-
+    //Buscar Empresa
     public Empresa BuscarEmpresa(string nombreEmpresa){
 
         Empresa r = new Empresa();
