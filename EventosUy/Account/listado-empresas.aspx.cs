@@ -20,8 +20,9 @@ public partial class Account_Default : System.Web.UI.Page
          {   
              GridViewRow fila = this.gridListarEmpresas.Rows[int.Parse(e.CommandArgument.ToString())];
              
-             string nombreEmpresa = fila.Cells[0].Text;
-             UsuarioEventosUY.Instancia.borrarUsuario(nombreEmpresa);
+             string idEmpresa = fila.Cells[0].Text;
+             int idEmpresaNum = Int32.Parse(idEmpresa); //Paso el Strgin a INT - "1" a 1
+             Empresa.Instancia.borrarEmpresa(idEmpresaNum);
 
              this.gridListarEmpresas.DataSource = Empresa.listarEmpresas();
              this.gridListarEmpresas.DataBind();

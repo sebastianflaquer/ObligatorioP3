@@ -10,7 +10,9 @@ public partial class Account_listado_eventos : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
 
+        //EL GRID LLAMA A LISAT EVENTOS
         this.gridListarEventos.DataSource = Empresa.listarEvento();
+        //SE CARGAN LOS DATOS EN EL GRID
         this.gridListarEventos.DataBind();
 
     }
@@ -20,11 +22,13 @@ public partial class Account_listado_eventos : System.Web.UI.Page
         {
             GridViewRow fila = this.gridListarEventos.Rows[int.Parse(e.CommandArgument.ToString())];
 
-            string tituloEvento = fila.Cells[0].Text;
-            Evento.Instancia.borrarEvento(tituloEvento);
 
-            this.gridListarEventos.DataSource = Empresa.listarEvento();
-            this.gridListarEventos.DataBind();
+            string tituloEvento = fila.Cells[0].Text; //TOMA EL TITULO DE LA CELLS
+            Evento.Instancia.borrarEvento(tituloEvento); // LLAMA A BORRAR EVENTO
+
+
+            this.gridListarEventos.DataSource = Empresa.listarEvento(); //EL GRID LLAMA A LISAT EVENTOS
+            this.gridListarEventos.DataBind();//SE CARGAN LOS DATOS EN EL GRID
 
             //Mensaje no hay tantos
             //this.errorField.Visible = true;

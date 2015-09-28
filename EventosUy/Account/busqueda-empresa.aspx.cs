@@ -12,22 +12,19 @@ public partial class Account_busqueda_empresa : System.Web.UI.Page
     }
 
     protected void BuscarEmpresa(object sender, EventArgs e)
-    {
-        
+    {   
         List<Empresa> listaEmpresaBuscada = new List<Empresa>();
-        Empresa empresaBuscada = new Empresa();
-        string txtbuscar = this.txtBuscar.ToString();
-        empresaBuscada = UsuarioEventosUY.mInstancia.BuscarEmpresa(txtbuscar);
-        listaEmpresaBuscada.Add(empresaBuscada);
+        string buscar = txtBuscarForm.Text;
+        listaEmpresaBuscada = Empresa.Instancia.BuscarEmpresa(buscar);
+        
+        //Empresa empresaBuscada = new Empresa();
+        //listaEmpresaBuscada.Add(empresaBuscada);
 
         if (listaEmpresaBuscada!= null)
         {
             this.gridEmpresaBuscada.DataSource = listaEmpresaBuscada;
             this.gridEmpresaBuscada.DataBind();
         }
-
     }
-
-
 
 }

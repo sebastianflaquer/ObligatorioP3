@@ -7,6 +7,10 @@ using System.Web.UI.WebControls;
 
 public partial class Account_crear_evento : System.Web.UI.Page
 {
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
 
 
     protected void btnAltaEvento(object sender, EventArgs e)
@@ -32,8 +36,5 @@ public partial class Account_crear_evento : System.Web.UI.Page
         );
     }
 
-    protected void Page_Load(object sender, EventArgs e)
-    {
-
-    }
+    
 }

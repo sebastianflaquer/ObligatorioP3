@@ -13,6 +13,7 @@ public class Evento
 {
     #region Atributos
 
+    private string mIdEmpresa;
     private string mNombreEmpresa;
     private string mTitulo;
     private string mDescripcion;    
@@ -22,12 +23,18 @@ public class Evento
     private string mNombreLugar;    
     private string mDireccionLugar;    
     private string mImagen;
-    private List<string> mPrecio;   
+    private string mPrecio;   
     private string mEstado;
     
     #endregion
     #region Propiedades
-    public string EmpresaId
+
+    public string IdEmpresa
+    {
+        get { return mIdEmpresa; }
+        set { mIdEmpresa = value; }
+    }
+    public string NombreEmpresa
     {
         get { return mNombreEmpresa; }
         set { mNombreEmpresa = value; }
@@ -72,7 +79,7 @@ public class Evento
         get { return mImagen; }
         set { mImagen = value; }
     }
-    public List<string> Precio
+    public string Precio
     {
         get { return mPrecio; }
         set { mPrecio = value; }
@@ -98,7 +105,7 @@ public class Evento
         }
     }
 
-    //Guargua el objeto Empresa
+    //Guargua el objeto Evento
     public void GuardarEvento(string Titulo, string Descripcion, string NombreArtista, string Fecha, string Hora, string NombreLugar, string DireccionLugar, System.IO.Stream Imagen, string Precio)
     {
         //string de conexion
@@ -113,9 +120,23 @@ public class Evento
             {
                 //string retornoPrecios = "";
 
+                //@Titulo varchar(30),
+                //@Descripcion varchar(300),
+                //@NombreArtista varchar(300),
+                //@Fecha date,
+                //@Hora time(7),
+                //@NombreLugar varchar(50),
+                //@DireccionLugar varchar(50),
+                //@Imagen varbinary(max),
+                //@Precio varchar(300),
+                //@Estado char(1),
+                //@idEmpresa int
+
                 cmd.Connection = cn;
                 cmd.CommandText = "Evento_Insert"; //consulta a ejecutar
-                cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
+                cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta     
+           
+
                 cmd.Parameters.Add(new SqlParameter("@Titulo", Titulo));
                 cmd.Parameters.Add(new SqlParameter("@Descripcion", Descripcion));
                 cmd.Parameters.Add(new SqlParameter("@NombreArtista", NombreArtista));
@@ -124,13 +145,17 @@ public class Evento
                 cmd.Parameters.Add(new SqlParameter("@NombreLugar", NombreLugar));
                 cmd.Parameters.Add(new SqlParameter("@DireccionLugar", DireccionLugar));
                 cmd.Parameters.Add(new SqlParameter("@Imagen", Imagen));
+                cmd.Parameters.Add(new SqlParameter("@Precio",Precio));
+                cmd.Parameters.Add(new SqlParameter("@Estado", "A"));
+                cmd.Parameters.Add(new SqlParameter("@idEmpresa", "1"));
+
+                // CREAR FOREACH PARA QUE EL PRECIO SEA UNA LISTADO
                 //foreach (string unPrecio in this.mPrecio)
                 //{
                 //    retornoPrecios = retornoPrecios + " " +unPrecio;
                 //}
                 //cmd.Parameters.Add(new SqlParameter("@Precio", retornoPrecios));//aca va la lista
-                cmd.Parameters.Add(new SqlParameter("@Estado", "A"));
-                //cmd.Parameters.Add(new SqlParameter("@idEmpresa", "1")); //Falta guardar en la DBO quien es la empresa que lo guarda
+                //Falta guardar en la DBO quien es la empresa que lo guarda
                 cn.Open();//abrimos conexion
                 afectadas = cmd.ExecuteNonQuery();//ejecutamos la consulta y capturamos nro de filas afectadas
                 cn.Close();//cerramos conexion
@@ -146,8 +171,7 @@ public class Evento
         }
     }
 
-    //Borrar usuarios
-    //Borrar usuarios
+    //Baja de evento - Borrar Evento
     public bool borrarEvento(string tituloEvento)
     {
         bool retorno = false;
@@ -161,7 +185,7 @@ public class Evento
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
             {
                 cmd.Connection = cn;
-                cmd.CommandText = "Eliminar_EventoxTitulo"; //consulta a ejecutar
+                cmd.CommandText = "Evento_EliminarPorTitulo"; //consulta a ejecutar
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
                 cmd.Parameters.Add(new SqlParameter("@tituloEvento", tituloEvento));//agregamos parametros para la consulta
                 cn.Open();//abrimos conexion

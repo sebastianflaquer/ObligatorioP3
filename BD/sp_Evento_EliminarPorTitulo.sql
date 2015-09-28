@@ -9,3 +9,6 @@ CREATE PROCEDURE Evento_EliminarPorTitulo
 		Where Evento.Titulo = @tituloEvento
 			END
 			GO
+			 
+
+Exec Evento_EliminarPorTitulo 'Rock&Roll'

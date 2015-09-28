@@ -18,23 +18,28 @@
                     </asp:PlaceHolder>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <asp:TextBox ID="txtBuscar" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtBuscarForm" runat="server" CssClass="form-control"  />
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <asp:Button runat="server" OnClick="BuscarEmpresa" Text="Buscar" CssClass="btn btn-default" />
-                            <asp:GridView ID="gridEmpresaBuscada" runat="server" AutoGenerateColumns="False">
-                                <Columns>
-                                    <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                                    <asp:BoundField DataField="Telefono" HeaderText="Telefono" />
-                                    <asp:BoundField DataField="MailPublico" HeaderText="Mail Principal" />
-                                    <asp:BoundField DataField="MailsAdicionales" HeaderText="Mails Adicionales" />
-                                    <asp:BoundField DataField="Url" HeaderText="URL" />
-                                </Columns>
-                            </asp:GridView>
+                            <asp:Button runat="server" OnClick="BuscarEmpresa" Text="Buscar" CssClass="btn btn-default" />                            
                         </div>
                     </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <asp:GridView ID="gridEmpresaBuscada" CssClass="table table-bordered" runat="server" AutoGenerateColumns="False" Width="100%">
+                        <Columns>
+                            <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+                            <asp:BoundField DataField="Telefono" HeaderText="Telefono" />
+                            <asp:BoundField DataField="MailPublico" HeaderText="Mail Principal" />
+                            <asp:BoundField DataField="MailsAdicionales" HeaderText="Mails Adicionales" />
+                            <asp:BoundField DataField="Url" HeaderText="URL" />
+                        </Columns>
+                    </asp:GridView>
                 </div>
             </div>
         </div>

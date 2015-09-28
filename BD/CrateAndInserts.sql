@@ -4,8 +4,8 @@ use EventosUY;
 
 /* Empresa */
 create table Empresa(
-	idEmpresa int IDENTITY(1,1) ,
-	nombreEmpresa varchar(50) primary key,
+	idEmpresa int IDENTITY(1,1) primary key,
+	nombreEmpresa varchar(50) unique,
 	telEmpresa varchar(30),
 	mailPrimario varchar(50) unique,
 	mailAdicional varchar(300),
@@ -15,9 +15,9 @@ create table Empresa(
 
 insert into Empresa(nombreEmpresa,telEmpresa,mailPrimario,mailAdicional,Url)values
 	('Tata','099111111','Hola@tata.com','adi@tata.com;adi2@tata.com','www.tata.com'),
-	('Multi','099222222','Hola@multi.com','adi@multi.com;adi2@multi.com','www.multi.com')
-	('Disco','099222222','Hola@mDisco.com','adi@mDisco.com;adi2@Disco.com','www.multi.com')
-	('Devoto','099222222','Hola@Devoto.com','adi@Devoto.com;adi2@Devoto.com','www.Devoto.com')
+	('Multi','099222222','Hola@multi.com','adi@multi.com;adi2@multi.com','www.multi.com'),
+	('Disco','099222222','Hola@mDisco.com','adi@mDisco.com;adi2@Disco.com','www.multi.com'),
+	('Devoto','099222222','Hola@Devoto.com','adi@Devoto.com;adi2@Devoto.com','www.Devoto.com'),
 	('Kinko','099222222','Hola@Kinko.com','adi@Kinko.com;adi2@Kinko.com','www.Kinko.com')
 
 select * from Empresa
@@ -34,19 +34,28 @@ create table Evento(
 	imagen varbinary(MAX),
 	precio varchar(300),
 	estado char(1),
-	nombreEmpresa varchar(50) ,
-	constraint fk_nombreEmpresa Foreign key (nombreEmpresa) references Empresa,
+	idEmpresa int ,
+	constraint fk_idEmpresa Foreign key (idEmpresa) references Empresa,
 	constraint ck_estado check (estado in('C', 'D', 'A'))
 )
 
-insert into Evento (Titulo,Descripcion,NombreArtista,fecha,hora,nombreLugar,direccionLugar,imagen,precio,estado,nombreEmpresa)values	
-	('Samba','Evento de Samba','Pedro','15/12/2015','21:00:00','Lugar2','Calle 2',00000,'520','D','Multi'),
-	('Rock','Evento de Rock','Juan','12/05/2010','12:00:00','Lugar1','Calle 1',00000,'250','A','Tata')
+insert into Evento (Titulo,Descripcion,NombreArtista,fecha,hora,nombreLugar,direccionLugar,imagen,precio,estado,idEmpresa)values	
+	('Samba','Evento de Samba','Pedro','15/12/2015','21:00:00','Lugar2','Calle 2',00000,'520','A','15'),
+	('Rock','Evento de Rock','Juan','12/05/2010','12:00:00','Lugar1','Calle 1',00000,'250','A','16'),
+	('Pop','Evento de Pop','Martin','15/12/2012','21:00:00','Lugar2','Calle 2',00000,'520','A','17'),
+	('RockAndRoll','Evento de Rock&Roll','Andres','15/12/2013','21:00:00','Lugar2','Calle 2',00000,'520','A','18'),
+	('Tango','Evento de Tango','Matias','15/12/2011','21:00:00','Lugar2','Calle 2',00000,'520','D','19')
+
+
 /* Consulta de testeo */
+
+select * from Evento
+
+
 select *
 from Evento E, Empresa P
 where E.idEmpresa = P.idEmpresa and
-p.idEmpresa = 1
+p.idEmpresa = 2
 
 
 /* UsuariosEventosUy */
@@ -66,3 +75,12 @@ insert into usuarioEventosUY (NroFuncionario,NombreEuy,ApellidoEuy,EmailEuy,Pass
 	(456,'Martin','Perez','m.p@euy','123456//','099321654','Empleado2')
 
 select * from usuarioEventosUY
+
+
+create table UserLogin(
+	Mail varchar(50),
+	Password varchar(50),
+	
+)
+
+

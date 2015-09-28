@@ -8,8 +8,8 @@ CREATE PROCEDURE Evento_Insert
 	@DireccionLugar varchar(50),
 	@Imagen varbinary(max),
 	@Precio varchar(300),
-	@Estado char(1)
-	--@idEmpresa int
+	@Estado char(1),
+	@idEmpresa int
 	As
 	BEGIN
 		SET NOCOUNT ON
@@ -25,8 +25,8 @@ CREATE PROCEDURE Evento_Insert
 			 direccionLugar,
 			 imagen,
 			 precio,
-			 estado
-			 --idEmpresa
+			 estado,
+			 idEmpresa
 			 )
 		VALUES
 			(
@@ -39,8 +39,12 @@ CREATE PROCEDURE Evento_Insert
 			 @DireccionLugar,
 			 @Imagen,
 			 @Precio,
-			 @Estado
-			 --@idEmpresa
+			 @Estado,
+			 @idEmpresa
 			)
 			END
 			GO
+
+
+--Probamos el procedimiento
+EXEC Evento_Insert 'holahola','Evento de Samba','Pedro','15/12/2015','21:00:00','Lugar2','Calle 2',00000,'520','D','1'

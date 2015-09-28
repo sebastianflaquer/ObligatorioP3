@@ -10,6 +10,7 @@
     <div class="md-content-tebale-empresa">
         <asp:GridView ID="gridListarEmpresas" CssClass="table table-bordered" runat="server" AutoGenerateColumns="False" OnRowCommand="gridListarEmpresas_RowCommand" Width="100%">
         <Columns>
+            <asp:BoundField DataField="idEmpresa" HeaderText="Id" />
             <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
             <asp:BoundField DataField="Telefono" HeaderText="Telefono" />
             <asp:BoundField DataField="MailPublico" HeaderText="Mail Principal" />
