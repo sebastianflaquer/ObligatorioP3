@@ -9,23 +9,16 @@ CREATE PROCEDURE Empresa_Insert
 	BEGIN
 		SET NOCOUNT ON
 
-		INSERT INTO Empresa
+		Insert into Usuarios
 			(
-			 nombreEmpresa	,
-			 telEmpresa		,
-			 mailPrimario	,
-			 mailAdicional	,
-			 Url			,
-			 Password		
-			 )
+			MailUsuario	,
+			PassUsuario
+			)
 		VALUES
 			(
-			 @nombreEmpresa ,
-			 @telEmpresa	,
-			 @mailPrimario	,
-			 @mailAdicional	,
-			 @Url			,
-			 @Password		
-			)
+			@mailPrimario	,
+			@Password		
+			)SELECT SCOPE_IDENTITY()
 			END
 			GO
+

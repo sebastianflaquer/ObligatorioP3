@@ -1,6 +1,48 @@
-create database EventosUY;
+create database EventosUYAlt;
 
-use EventosUY;
+use EventosUYAlt;
+
+Create table Roles(
+	NombreRol varchar(30) primary key;
+	DetalleRol Varchar (300)
+)
+
+Create table Usuario(
+	idCodigo int IDENTITY(1,1) primary key,
+	NombreRol varchar(50) foreign key, 
+	Nombre varchar(30), 
+	Apellido varchar(30), 
+	NroFuncionario int, 
+	Email varchar(50) unique, 
+	MailsPrivados varchar(300), 
+	Password varchar(50), 
+	Telefono varchar(30), 
+	Cargo varchar(50), 
+	Url varchar(50)
+)
+
+create table Evento(
+	Titulo varchar(30) primary key,
+	Descripcion varchar(300),
+	NombreArtista varchar(300),
+	fecha date,
+	hora time,
+	nombreLugar varchar(50),
+	direccionLugar varchar(50),
+	imagen varbinary(MAX),
+	precio varchar(300),
+	estado char(1),
+	idCodigo int ,
+	constraint fk_idEmpresa Foreign key (idCodigo) references Usuario,
+	constraint ck_estado check (estado in('C', 'D', 'A'))
+)
+
+
+
+
+
+
+/* ************************************************************************************************************** */
 
 /* Empresa */
 create table Empresa(

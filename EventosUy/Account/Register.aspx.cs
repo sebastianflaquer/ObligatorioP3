@@ -7,6 +7,13 @@ using EventosUy;
 public partial class Account_Register : Page
 {
 
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        Empresa.Instancia.GuardarUsuario("1@hola.com", "123456") ;
+    }
+
     protected void btnAltaEmpresa(object sender, EventArgs e)
     {
 
@@ -19,11 +26,11 @@ public partial class Account_Register : Page
         //}
         Empresa.Instancia.GuardarEmpresa(
             EmpresaName.Text,
+            EmpresaPassword.Text,
             EmpresaTelefono.Text,
             EmpresaMailPublico.Text,
             EmpresaMailAdicional.Text,
-            EmpresaUrl.Text,
-            EmpresaPassword.Text
+            EmpresaUrl.Text
         );
     }
 
