@@ -1,7 +1,7 @@
 CREATE PROCEDURE Eventos_Insert
 	@Titulo varchar(30),
 	@Descripcion varchar(300),
-	@NombreArtista varchar(300),
+	@NombreArtistas varchar(300),
 	@Fecha date,
 	@Hora time(7),
 	@NombreLugar varchar(50),
@@ -20,7 +20,7 @@ CREATE PROCEDURE Eventos_Insert
 			(
 			 Titulo,
 			 Descripcion,
-			 NombreArtista,
+			 NombreArtistas,
 			 Fecha,
 			 Hora,
 			 NombreLugar,
@@ -36,11 +36,13 @@ CREATE PROCEDURE Eventos_Insert
 			(
 			 @Titulo,
 			 @Descripcion,
-			 @NombreArtista,
+			 @NombreArtistas,
 			 @Fecha,
 			 @Hora,
 			 @NombreLugar,
 			 @DireccionLugar,
+			 @BarrioLugar,
+			 @CapasidadMaxima,
 			 @Imagen,
 			 @Precio,
 			 @Estado,

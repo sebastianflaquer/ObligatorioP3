@@ -66,8 +66,30 @@ public partial class SiteMaster : MasterPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        //this.lblNombreMaster.Text = Session["nombre"].ToString();
+        //this.lblEmailMaster.Text = Session["email"].ToString();
+        //if ((Boolean)Session["logeado"])
+        //{
+        //    this.divLogin.Visible = false;
+        //    this.divDatosLogeados.Visible = true;
+        //}
+        //else
+        //{
+        
+        
+        //}
 
     }
+
+    //protected void btnCerrarSesion_Click(object sender, EventArgs e)
+    //{
+    //    Session["logueado"] = false;
+    //    Session["nombre"] = "";
+    //    Session["email"] = "";
+    //    Session["tipo"] = Cliente.tipoUsuario.Cliente;
+    //    Response.Redirect("../");
+    //}
+
 
     protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
     {

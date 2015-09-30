@@ -21,7 +21,7 @@
         </div>
         <!-- END TITULO EVENTO -->
 
-        <!-- PASSWORD EMPRESA -->
+        <!-- PASSWORD EVENTO -->
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="EventoDescripcion" CssClass="col-md-2 control-label">Descripcion</asp:Label>
             <div class="col-md-10">
@@ -29,9 +29,9 @@
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="EventoDescripcion" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />
             </div>
         </div>
-        <!-- EDN PASSWORD EMPRESA -->
+        <!-- EDN PASSWORD EVENTO -->
 
-        <!-- CONFIRM PASSWORD EMPRESA -->
+        <!-- CONFIRM PASSWORD EVENTO -->
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="EventoNombreArtista" CssClass="col-md-2 control-label">Nombre Artista/s</asp:Label>
             <div class="col-md-10">
@@ -39,9 +39,9 @@
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="EventoNombreArtista" CssClass="text-danger" ErrorMessage="El campo de nombre de Empresa es obligatorio." />
             </div>
         </div>
-        <!-- END CONFIRM PASSWORD EMPRESA -->
+        <!-- END CONFIRM PASSWORD EVENTO -->
 
-        <!-- TELEFONO EMPRESA -->
+        <!-- TELEFONO EVENTO -->
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="EventoFecha" CssClass="col-md-2 control-label">Fecha</asp:Label>
             <div class="col-md-10">
@@ -49,9 +49,9 @@
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="EventoFecha" CssClass="text-danger" ErrorMessage="El campo de telefono es obligatorio." />
             </div>
         </div>
-        <!-- END TELEFONO EMPRESA -->
+        <!-- END TELEFONO EVENTO -->
         
-        <!-- MAIL PUBLICO EMPRESA -->
+        <!-- MAIL PUBLICO EVENTO -->
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="EventoHora" CssClass="col-md-2 control-label">Hora</asp:Label>
             <div class="col-md-10">
@@ -59,9 +59,9 @@
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="EventoHora" CssClass="text-danger" ErrorMessage="El campo de Mail Principal es obligatorio." />
             </div>
         </div>
-        <!-- END MAIL PUBLICO EMPRESA-->
+        <!-- END MAIL PUBLICO EVENTO-->
 
-        <!-- MAIL ADICIONAL EMPRESA -->
+        <!-- MAIL ADICIONAL EVENTO -->
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="EventoNombreLugar" CssClass="col-md-2 control-label">Nombre Lugar</asp:Label>
             <div class="col-md-10">
@@ -69,9 +69,9 @@
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="EventoNombreLugar" CssClass="text-danger" ErrorMessage="El campo de Mail Principal es obligatorio." />
             </div>
         </div>
-        <!-- END MAIL ADICIONAL EMPRESA -->
+        <!-- END MAIL ADICIONAL EVENTO -->
 
-        <!-- URL EMPRESA -->
+        <!-- DIRECCION LUGAR EVENTO -->
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="EventoDireccionLugar" CssClass="col-md-2 control-label">Direccion Lugar</asp:Label>
             <div class="col-md-10">
@@ -79,9 +79,71 @@
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="EventoDireccionLugar" CssClass="text-danger" ErrorMessage="El campo de URL es obligatorio." />
             </div>
         </div>
-        <!-- END URL EMPRESA -->
+        <!-- END DIRECCIONLUGAR EVENTO -->
 
-        <!-- URL EMPRESA -->
+        <!-- BARRIO LUGAR EVENTO -->
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="EventoBarrioLugar" CssClass="col-md-2 control-label">Barrio Lugar</asp:Label>
+            <div class="col-md-10">
+                <asp:DropDownList ID="EventoBarrioLugar" runat="server">
+                    <asp:ListItem Value="Pocitos"></asp:ListItem>
+                    <asp:ListItem Value="Punta Carretas"></asp:ListItem>
+                    <asp:ListItem>Parque Rodo</asp:ListItem>
+                    <asp:ListItem>Prado</asp:ListItem>
+                    <asp:ListItem Value="Centro"></asp:ListItem>
+                    <asp:ListItem Value="Barrio Sur"></asp:ListItem>
+                    <asp:ListItem Value="Palermo"></asp:ListItem>
+                    <asp:ListItem Value="Ciudad Vieja"></asp:ListItem>
+                    <asp:ListItem Value="La Blanqueada"></asp:ListItem>
+                    <asp:ListItem Value="Malvin"></asp:ListItem>
+                    <asp:ListItem>Buceo</asp:ListItem>
+                    <asp:ListItem Value="Flor de Maroñas"></asp:ListItem>
+                    <asp:ListItem>Itauzaingo</asp:ListItem>
+                    <asp:ListItem>Cerro</asp:ListItem>
+                    <asp:ListItem>Cerrito de la Victoria</asp:ListItem>
+                    <asp:ListItem Value="Peñarol"></asp:ListItem>
+                    <asp:ListItem Value="Casavalle"></asp:ListItem>
+                    <asp:ListItem>Aires Puros</asp:ListItem>
+                    <asp:ListItem>Piedras Blancas</asp:ListItem>
+                    <asp:ListItem>Villa Española</asp:ListItem>
+                    <asp:ListItem>Punta de Rieles</asp:ListItem>
+                    <asp:ListItem>Unión</asp:ListItem>
+                    <asp:ListItem>Casabó</asp:ListItem>
+                    <asp:ListItem>La Teja</asp:ListItem>
+                    <asp:ListItem>Aguada</asp:ListItem>
+                    <asp:ListItem>Reducto</asp:ListItem>
+                    <asp:ListItem>Jacinto Vera</asp:ListItem>
+                    <asp:ListItem>La Figurita</asp:ListItem>
+                    <asp:ListItem>Larrañaga</asp:ListItem>
+                    <asp:ListItem>Villa Muñoz</asp:ListItem>
+                    <asp:ListItem>La Comercial</asp:ListItem>
+                    <asp:ListItem>Tres Cruces</asp:ListItem>
+                    <asp:ListItem>Brazo Oriental</asp:ListItem>
+                    <asp:ListItem>Sayago</asp:ListItem>
+                    <asp:ListItem>Belvedere</asp:ListItem>
+                    <asp:ListItem Value="Nuevo Paris"></asp:ListItem>
+                    <asp:ListItem>Tres Ombues</asp:ListItem>
+                    <asp:ListItem>Paso de la Arena</asp:ListItem>
+                    <asp:ListItem>Colon</asp:ListItem>
+                    <asp:ListItem Value="Lesica"></asp:ListItem>
+                    <asp:ListItem Value="Villa Garcia"></asp:ListItem>
+                    <asp:ListItem>Manga</asp:ListItem>
+                </asp:DropDownList>
+            </div>
+        </div>
+        <!-- END BARRIO LUGAR EVENTO -->
+
+        <!-- CAPASIDAD MAXIMA EVENTO -->
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="EventoCapasidadMaxima" CssClass="col-md-2 control-label">Capasidad Maxima</asp:Label>
+            <div class="col-md-10">
+                <asp:TextBox runat="server" ID="EventoCapasidadMaxima" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="EventoDireccionLugar" CssClass="text-danger" ErrorMessage="El campo de URL es obligatorio." />
+            </div>
+        </div>
+        <!-- END CAPASIDAD MAXIMA EVENTO -->
+
+        <!-- IMAGEN EVENTO -->
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="EventoImagen" CssClass="col-md-2 control-label">Imagen</asp:Label>
             <div class="col-md-10">
@@ -89,9 +151,9 @@
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="EventoImagen" CssClass="text-danger" ErrorMessage="El campo de URL es obligatorio." />
             </div>
         </div>
-        <!-- END URL EMPRESA -->
+        <!-- END IMAGEN EVENTO -->
 
-        <!-- URL EMPRESA -->
+        <!-- PRECIO EVENTO -->
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="EventoPrecio" CssClass="col-md-2 control-label">Precio</asp:Label>
             <div class="col-md-10">
@@ -99,7 +161,7 @@
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="EventoPrecio" CssClass="text-danger" ErrorMessage="El campo de URL es obligatorio." />
             </div>
         </div>
-        <!-- END URL EMPRESA -->
+        <!-- END PRECIO EVENTO -->
 
         <!-- BTN ALTA EVENTO -->
         <div class="form-group">

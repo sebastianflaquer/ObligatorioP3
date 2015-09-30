@@ -16,10 +16,13 @@ public class Empresa
     private string midEmpresa;
     private string mNombre;
     private string mTelefono;
+    private int midUsuario;
     private string mMailPublico;
     private string mPassword;
     private string mMailsAdicionales;
     private string mUrl;
+    private int midRol;
+    
 
     #endregion
     #region Propiedades
@@ -38,6 +41,11 @@ public class Empresa
         get { return mTelefono; }
         set { mTelefono = value; }
     }
+    public int idUsuario
+    {
+        get { return midUsuario; }
+        set { midUsuario = value; }
+    }
     public string MailPublico
     {
         get { return mMailPublico; }
@@ -53,11 +61,14 @@ public class Empresa
         get { return mMailsAdicionales; }
         set { mMailsAdicionales = value; }
     }
-
     public string Url
     {
         get { return mUrl; }
         set { mUrl = value; }
+    }    public int idRol
+    {
+        get { return midRol; }
+        set { midRol = value; }
     }
     #endregion
     
@@ -102,14 +113,16 @@ public class Empresa
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
                 cmd.Parameters.Add(new SqlParameter("@mailPrimario", MailPublico));
                 cmd.Parameters.Add(new SqlParameter("@Password", Password));
-                cn.Open(); //abrimos conexion                
+                cn.Open(); //abrimos conexion
+                
                 //CREAMOS LA TRANSACCION
                 trn = cn.BeginTransaction();//iniciamos la transaccion 
                 cmd.Transaction = trn;
-                idUsuario = Convert.ToInt32(cmd.ExecuteScalar());
 
-                cmd.CommandText = "Empresa_Insert";
-                cmd.Parameters.Clear();
+                idUsuario = Convert.ToInt32(cmd.ExecuteScalar());//Usamos el ExecuteScalar para devolver el IdUsuario
+
+                cmd.CommandText = "Empresa_Insert";//Pisamos el CommandText
+                cmd.Parameters.Clear();//Limpiamos los Parametros
                 cmd.Parameters.Add(new SqlParameter("@Nombre", Nombre)); //agregamos parametros para la consulta
                 cmd.Parameters.Add(new SqlParameter("@Telefono", Telefono));
                 cmd.Parameters.Add(new SqlParameter("@Mails", MailsAdicionales));
@@ -117,14 +130,13 @@ public class Empresa
                 cmd.Parameters.Add(new SqlParameter("@idUsuario", idUsuario));
 
                 afectadas = cmd.ExecuteNonQuery(); //ejecutamos la consulta y capturamos nro de filas afectadas
-                trn.Commit();
-                
+                trn.Commit();//Si todo sale bien Ejecuta las consultas                
                 cn.Close();//cerramos conexion
             }
         }
         catch (SqlException ex)
         {
-            trn.Rollback();
+            trn.Rollback();//Si hay un error Hace un RollBack para dejar sin efecto las consultas
         }
         finally
         {
@@ -139,7 +151,6 @@ public class Empresa
     public bool borrarEmpresa(int idEmpresa)
     {
         bool retorno = false;
-
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
@@ -214,8 +225,7 @@ public class Empresa
         cn.Close(); //cerramos la conexion explicitamente
         return lst;
     }
-
-
+    
     //LISTAR EMPRESAS
     public static List<Empresa> listarEmpresas()
     {
@@ -293,25 +303,48 @@ public class Empresa
         cn.Close(); //cerramos la conexion explicitamente
         return lst;
     }
+    
+    //USUARIO VALIDO
+    public Empresa usuarioValido(string UserName, string Password)
+    {
 
-    //CARGAR DATOS
-    //public string CargarDatos()
-    //{
-    //    List<Empresa> listarEmpresas = Empresa.listarEmpresas();
-    //    string retorno = "";
-    //    foreach (Empresa unaEmpresa in listarEmpresas)
-    //    {
+        Empresa unaEmpresa = new Empresa();
 
-    //        retorno += "<tr><th scope='row'>" + "</th>";
-    //        retorno += "<td>" + unaEmpresa.mNombre + "</td>";
-    //        retorno += "<td>" + unaEmpresa.mTelefono + "</td>";
-    //        retorno += "<td>" + unaEmpresa.mMailPublico + "</td>";
-    //        retorno += "<td>" + unaEmpresa.mMailsAdicionales + "</td>";
-    //        retorno += "<td>" + unaEmpresa.mUrl + "</td>";
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;
+        //indico que voy a ejecutar un procedimiento almacenado en la bd
+        cmd.CommandText = "Usuario_BuscarUsuario";//indico el nombre del procedimiento almacenado a ejecutar
 
-    //        //Cierra el Row
-    //        retorno += "</tr>";
-    //    }
-    //    return retorno;
-    //}
+        SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
+
+        SqlDataReader drResults;
+
+        cmd.Connection = cn;
+        cn.Open();//abrimos la conexion
+        drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
+        //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
+
+        while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
+        {
+            string MailPublicoLectura = drResults["MailUsuario"].ToString();
+            string PasswordLectura    =  drResults["PassUsuario"].ToString();
+
+            if (MailPublicoLectura == UserName && PasswordLectura == Password)
+            {
+                Empresa r = new Empresa();
+                r.idUsuario = Convert.ToInt32(drResults["idUsuario"]);
+                r.MailPublico = drResults["MailUsuario"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
+                r.Password = drResults["PassUsuario"].ToString();
+                r.idRol = Convert.ToInt32(drResults["idRol"]);
+
+                unaEmpresa = r;
+            }
+
+        }
+        drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
+        cn.Close(); //cerramos la conexion explicitamente
+        return unaEmpresa;
+    }
 }
