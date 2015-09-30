@@ -4,8 +4,8 @@ CREATE PROCEDURE Usuarios_Insert
 	As BEGIN
 	SET NOCOUNT ON
 
-	Insert into Usuarios ( MailUsuario,	PassUsuario	) VALUES
-		(@mailPrimario, @Password)
+	Insert into Usuarios ( MailUsuario,	PassUsuario, IdRol) VALUES
+		(@mailPrimario, @Password, 1)
 		SELECT SCOPE_IDENTITY()
 
 	END 

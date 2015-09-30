@@ -80,84 +80,59 @@ public class Empresa
     //GUARDAR EMPRESA
     public int GuardarEmpresa(string Nombre, string Telefono, string MailPublico, string MailsAdicionales, string Url, string Password)
     {
-
-        int IdUsuarioGuardar = GuardarUsuario(MailPublico, Password);
-
+        
         //string de conexion
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
 
+        int idUsuario = 0;
         int afectadas = 0;
-        try
-        {
-            using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
-            {
-                cmd.Connection = cn;
-                cmd.CommandText = "Empresa_Insert"; //consulta a ejecutar
-                cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
-                cmd.Parameters.Add(new SqlParameter("@nombreEmpresa", Nombre)); //agregamos parametros para la consulta
-                cmd.Parameters.Add(new SqlParameter("@telEmpresa", Telefono));
-                cmd.Parameters.Add(new SqlParameter("@mailAdicional", MailsAdicionales));
-                cmd.Parameters.Add(new SqlParameter("@Url", Url));
-                cmd.Parameters.Add(new SqlParameter("@idUsuario", IdUsuarioGuardar));
-                    
-                    
-              //--Select cast(Scope_Identity())”,con);
-                cn.Open(); //abrimos conexion                
-                afectadas = cmd.ExecuteNonQuery(); //ejecutamos la consulta y capturamos nro de filas afectadas
-                cn.Close();//cerramos conexion
-            }
-        }
-        catch (SqlException ex)
-        {
-            //loguear excepcion
-        }
-        finally
-        {
 
-        }
-        return afectadas;
-    }
-
-
-    public int GuardarUsuario(string MailPublico, string Password) {
-
-        //string de conexion
-        SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
-        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
-        cn.ConnectionString = cadenaConexion;
-
-        int newId = 0;
+        //declaramos  el Transaction
+        SqlTransaction trn = null;
         
         try
         {
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
             {
+
                 cmd.Connection = cn;
                 cmd.CommandText = "Usuarios_Insert"; //consulta a ejecutar
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
-                cmd.Parameters.Add(new SqlParameter("@MailUsuario", MailPublico)); //agregamos parametros para la consulta
-                cmd.Parameters.Add(new SqlParameter("@PassUsuario", Password));
-                cn.Open(); //abrimos conexion
-                //cmd.ExecuteScalar();
-                newId = Convert.ToInt32(cmd.ExecuteScalar());
-                //int n = Convert.ToInt32();
-                //cmd.ExecuteNonQuery(); //ejecutamos la consulta y capturamos nro de filas afectadas
-                cn.Close();//cerramos conexion
+                cmd.Parameters.Add(new SqlParameter("@mailPrimario", MailPublico));
+                cmd.Parameters.Add(new SqlParameter("@Password", Password));
+                cn.Open(); //abrimos conexion                
+                //CREAMOS LA TRANSACCION
+                trn = cn.BeginTransaction();//iniciamos la transaccion 
+                cmd.Transaction = trn;
+                idUsuario = Convert.ToInt32(cmd.ExecuteScalar());
+
+                cmd.CommandText = "Empresa_Insert";
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add(new SqlParameter("@Nombre", Nombre)); //agregamos parametros para la consulta
+                cmd.Parameters.Add(new SqlParameter("@Telefono", Telefono));
+                cmd.Parameters.Add(new SqlParameter("@Mails", MailsAdicionales));
+                cmd.Parameters.Add(new SqlParameter("@Url", Url));
+                cmd.Parameters.Add(new SqlParameter("@idUsuario", idUsuario));
+
+                afectadas = cmd.ExecuteNonQuery(); //ejecutamos la consulta y capturamos nro de filas afectadas
+                trn.Commit();
                 
-                //Int32 newId = (Int32)myCommand.ExecuteScalar();
+                cn.Close();//cerramos conexion
             }
         }
         catch (SqlException ex)
         {
-            //loguear excepcion
+            trn.Rollback();
         }
         finally
         {
-
+            if (cn.State == ConnectionState.Open)
+                cn.Close(); //cerramos la conexion
         }
-        return newId;
+        return afectadas;
+        //return afectadas;
     }
 
     //BORRAR EMPRESA

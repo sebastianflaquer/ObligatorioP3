@@ -1,6 +1,6 @@
-create database EventosUYAlt2;
+create database EventosUY;
 
-use EventosUYAlt2;
+use EventosUY;
 
 
 --Roles (IdRol, NombreRol, DetalleRol)
@@ -36,6 +36,9 @@ insert into Usuarios (MailUsuario, PassUsuario, IdRol) values
 select *
 from Usuarios
 
+select *
+from Empresas
+
 --Empresas ( IdEmpresa, Nombre, Telefono, Mails, Url, idUsuario)
 
 create table Empresas(
@@ -53,8 +56,7 @@ insert into Empresas(Nombre,Telefono,Mails,Url,idUsuario) values
 	--('Kinko','099123123','estemail@mails.com;estemail@mails.com','http://www.Kinko.com',),
 	--('Devoto','099123123','estemail@mails.com;estemail@mails.com','http://www.Devoto.com',)
 
-select *
-from Empresas
+
 
 --Administradores (idAdmin, NroFuncionario, Nombre, Apellido, Telefono, Cargo, idUsuario)
 

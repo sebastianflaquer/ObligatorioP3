@@ -83,7 +83,6 @@ public class UsuarioEventosUY
     public int GuardarUsuarioEventosUY()
     {
 
-
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;

@@ -9,3 +9,5 @@ CREATE PROCEDURE Empresas_BuscarXNombre
 		where E.nombreEmpresa = @nombreEmpresa
 			END
 			GO
+
+		exec Empresas_BuscarXNombre Tata
