@@ -9,6 +9,16 @@ public partial class Account_busqueda_empresa : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        if ((Boolean)Session["logueado"]) //Si esta logeado
+        {
+            
+        }
+        else
+        {
+            Response.Redirect("../Account/Login"); //Si no esta logeado
+        }
+
     }
 
     protected void BuscarEmpresa(object sender, EventArgs e)

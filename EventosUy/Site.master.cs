@@ -78,24 +78,16 @@ public partial class SiteMaster : MasterPage
 
         if ((Boolean)Session["logueado"])
         {
-            this.divLogin.Visible = false;
+            this.divLogin.Visible = false;            
             this.divDatosLogeado.Visible = true;
 
-            if (Convert.ToInt32(Session["idRol"]) == 1)
+            if (Convert.ToInt32(Session["idRol"]) == 1)//Empresa
             {
-                this.LinkCrearEvento.Visible = true;
                 this.divMenuLogeado.Visible = true;
-                this.divLogin.Visible = false;
-                //this.LinkAltaProducto.Visible = true;
-                //this.ListaPedidos.Visible = true;
-                //this.LinkListaProductos.Visible = true;
-                //this.listaItem.Visible = true;
-                //this.LinkInfoYEsta.Visible = true;
-
             }
-            if (Convert.ToInt32(Session["idRol"]) == 2)
-            {
-                //this.LinkEditarPermisos.Visible = true;
+            if (Convert.ToInt32(Session["idRol"]) == 2)//Usuario
+            {   
+                this.divMenuLogeadoUsuario.Visible = true;
             }
         }
         else
@@ -108,10 +100,10 @@ public partial class SiteMaster : MasterPage
 
     protected void btnCerrarSesion_Click(object sender, EventArgs e)
     {
+        Response.Redirect("/");
         Session["logueado"] = false;
         Session["email"] = "";
         Session["idRol"] = null;
-        Response.Redirect("/");
     }
 
 

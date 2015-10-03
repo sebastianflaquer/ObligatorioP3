@@ -90,8 +90,7 @@ public class Empresa
 
     //GUARDAR EMPRESA
     public int GuardarEmpresa(string Nombre, string Telefono, string MailPublico, string MailsAdicionales, string Url, string Password)
-    {
-        
+    {   
         //string de conexion
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
@@ -107,7 +106,6 @@ public class Empresa
         {
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
             {
-
                 cmd.Connection = cn;
                 cmd.CommandText = "Usuarios_Insert"; //consulta a ejecutar
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
@@ -305,18 +303,61 @@ public class Empresa
         return lst;
     }
     
-    //USUARIO VALIDO
-    public Empresa usuarioValido(string UserName, string Password)
-    {
 
-        Empresa unaEmpresa = new Empresa();
+    //USUARIO VALIDO
+    //public Empresa usuarioValido(string UserName, string Password)
+    //{
+
+    //    SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
+    //    string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+    //    cn.ConnectionString = cadenaConexion;
+
+    //    Empresa unaEmpresa = new Empresa();
+    //    SqlCommand cmd = new SqlCommand();
+    //    cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
+    //    cmd.CommandText = "Usuario_BuscarUsuario";//indico el nombre del procedimiento almacenado a ejecutar
+
+    //    SqlDataReader drResults;
+
+    //    cmd.Connection = cn;
+    //    cn.Open();//abrimos la conexion
+    //    drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
+    //    //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
+        
+    //    while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
+    //    {
+    //        string MailPublicoLectura = drResults["MailUsuario"].ToString();
+    //        string PasswordLectura    =  drResults["PassUsuario"].ToString();
+
+    //        if (MailPublicoLectura == UserName && PasswordLectura == Password)
+    //        {
+    //            Empresa r = new Empresa();
+    //            r.idUsuario = Convert.ToInt32(drResults["idUsuario"]);
+    //            r.MailPublico = drResults["MailUsuario"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
+    //            r.Password = drResults["PassUsuario"].ToString();
+    //            r.idRol = Convert.ToInt32(drResults["idRol"]);
+    //            unaEmpresa = r;
+    //            unaEmpresa = cargarDatosEmpresa(unaEmpresa);
+    //            return unaEmpresa;
+    //        }
+
+    //    }
+    //    drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
+    //    cn.Close(); //cerramos la conexion explicitamente
+    //    return unaEmpresa;
+    //}
+
+    //CARGAR DATOS EMPRESA
+    public Empresa cargarDatosEmpresa(string UserName)
+    {
+        
+        SqlConnection cn = new SqlConnection();//Creamos y configuramos la conexion.
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
+
         SqlCommand cmd = new SqlCommand();
         cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
         cmd.CommandText = "Usuario_BuscarUsuario";//indico el nombre del procedimiento almacenado a ejecutar
-
-        SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
-        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
-        cn.ConnectionString = cadenaConexion;
 
         SqlDataReader drResults;
 
@@ -324,13 +365,15 @@ public class Empresa
         cn.Open();//abrimos la conexion
         drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
         //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
-        
+
+        Empresa unaEmpresa = new Empresa();
+
         while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
         {
             string MailPublicoLectura = drResults["MailUsuario"].ToString();
-            string PasswordLectura    =  drResults["PassUsuario"].ToString();
+            string PasswordLectura = drResults["PassUsuario"].ToString();
 
-            if (MailPublicoLectura == UserName && PasswordLectura == Password)
+            if (MailPublicoLectura == UserName)
             {
                 Empresa r = new Empresa();
                 r.idUsuario = Convert.ToInt32(drResults["idUsuario"]);
@@ -338,26 +381,29 @@ public class Empresa
                 r.Password = drResults["PassUsuario"].ToString();
                 r.idRol = Convert.ToInt32(drResults["idRol"]);
                 unaEmpresa = r;
-                unaEmpresa = cargarDatosEmpresa(unaEmpresa);
+                unaEmpresa = cargarDatosDeEmpresa(unaEmpresa);
                 return unaEmpresa;
             }
 
         }
+
         drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
         cn.Close(); //cerramos la conexion explicitamente
         return unaEmpresa;
+        
     }
 
-    private Empresa cargarDatosEmpresa(Empresa unaEmpresa)
+    //CARGAR DATOS DE EMPRESA
+    public Empresa cargarDatosDeEmpresa(Empresa unaEmpresa)
     {
-        
-        SqlCommand cmd = new SqlCommand();
-        cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
-        cmd.CommandText = "Empresa_CargarDatos";
 
         SqlConnection cn = new SqlConnection();//Creamos y configuramos la conexion.
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
+
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
+        cmd.CommandText = "Empresa_CargarDatos";
 
         SqlDataReader drResults;
 
@@ -366,9 +412,11 @@ public class Empresa
         drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
         //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
 
-        while (drResults.Read()){ //Mientras tenga datos para leer
+        while (drResults.Read())
+        { //Mientras tenga datos para leer
             int idUsuario = Convert.ToInt32(drResults["idUsuario"]);
-            if (unaEmpresa.idUsuario == idUsuario){
+            if (unaEmpresa.idUsuario == idUsuario)
+            {
                 unaEmpresa.idEmpresa = Convert.ToInt32(drResults["idEmpresa"]);
                 unaEmpresa.Nombre = drResults["Nombre"].ToString();
                 unaEmpresa.Telefono = drResults["Telefono"].ToString();

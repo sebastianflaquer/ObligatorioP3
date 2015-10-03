@@ -10,7 +10,20 @@ public partial class Account_Register : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if ((Boolean)Session["logueado"]) //Si esta logeado
+        {
+            if (Convert.ToInt32(Session["idRol"]) == 2)//Si es un Administrador
+            {
+                //Puede registrar una empresa
+            }
+            else {
+                Response.Redirect("../");//No puede registar una empresa
+            } 
+        }
+        else //Si no esta logeado
+        {
+            //Puede registrar una empresa
+        }
     }
 
     protected void btnAltaEmpresa(object sender, EventArgs e)
@@ -23,6 +36,7 @@ public partial class Account_Register : Page
         //{
         // //validar aca que el mail no se repita
         //}
+
         Empresa.Instancia.GuardarEmpresa(
             EmpresaName.Text,
             EmpresaTelefono.Text,

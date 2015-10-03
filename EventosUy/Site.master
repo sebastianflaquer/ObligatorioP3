@@ -50,22 +50,37 @@
                     <a class="navbar-brand" runat="server" href="~/">EventosUY</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Inicio</a></li>
-                    </ul>
-                    <!-- MENU LOGEADO -->
+                    <!-- MENU LOGEADO EMPRESA -->
                     <ul id="divMenuLogeado" visible=false class="nav navbar-nav" runat="server">
                         <li ID="LinkCrearEvento" Visible="false" runat="server"><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Account/crear-evento">Crear Evento</asp:HyperLink></li>
-                        <li><a runat="server" href="~/Account/busqueda-empresa.aspx">BusquedaE</a></li>
+                        <li><a>Baja Emp</a></li>
+                        <li><a>Alta Even</a></li>
+                        <li><a>Baja Even</a></li>
+                        <li><a>Hist Even</a></li>
+                        <li><a>Busqueda Fecha</a></li>
+                        <li><a runat="server" href="~/Account/listado-eventos.aspx">Listado Even</a></li>
+                    </ul>
+                    <!-- MENU LOGEADO -->
+
+                    <!-- MENU LOGEADO USUARIO -->
+                    <ul id="divMenuLogeadoUsuario" visible=false class="nav navbar-nav" runat="server">
+                        <li><a href="../Account/Register">Alta Emp</a></li>
+                        <li><a>Baja Even</a></li>
                         <li><a runat="server" href="~/Account/listado-eventos.aspx">ListadoEven</a></li>
                         <li><a runat="server" href="~/Account/listado-empresas.aspx">ListadoEmp</a></li>
+                        <li><a runat="server" href="~/Account/busqueda-empresa.aspx">BusquedaE</a></li>
                     </ul>
                     <!-- MENU LOGEADO -->
 
                     <!-- DATOS LOGEADO -->
                     <ul id="divDatosLogeado" visible=false class="nav navbar-nav navbar-right" runat="server">
-                        <li><a runat="server" href="~/Account/perfil-empresa.aspx"><asp:Label ID="lblEmailMaster" runat="server"></asp:Label></a></li>
-                        <li><asp:Button CssClass="link" ID="btnCerrarSesion" runat="server" Text="CerrarSesion" onclick="btnCerrarSesion_Click" /></li>
+                        <li>
+                            <a runat="server" href="#" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><asp:Label ID="lblEmailMaster" runat="server"></asp:Label></a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="../Account/perfil.aspx">Perfil</a></li>
+                                <li><asp:LinkButton ID="btnCerrarSesion"  onclick="btnCerrarSesion_Click" runat="server">Cerrar Sesion</asp:LinkButton></li>
+                            </ul>
+                        </li>
                     </ul>
                     <!-- DATOS LOGEADO -->
 

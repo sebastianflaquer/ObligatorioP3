@@ -9,11 +9,17 @@ public partial class Account_listado_eventos : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        //EL GRID LLAMA A LISAT EVENTOS
-        this.gridListarEventos.DataSource = Empresa.listarEvento();
-        //SE CARGAN LOS DATOS EN EL GRID
-        this.gridListarEventos.DataBind();
+        if ((Boolean)Session["logueado"]) //Si esta logeado
+        {
+            //EL GRID LLAMA A LISAT EVENTOS
+            this.gridListarEventos.DataSource = Empresa.listarEvento();
+            //SE CARGAN LOS DATOS EN EL GRID
+            this.gridListarEventos.DataBind();
+        }
+        else
+        {
+            Response.Redirect("../Account/Login"); //Si no esta logeado
+        }
 
     }
     protected void gridListarEventos_RowCommand(object sender, GridViewCommandEventArgs e)

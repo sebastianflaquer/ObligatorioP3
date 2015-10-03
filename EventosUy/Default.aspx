@@ -3,7 +3,6 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="jumbotron">
         <h1>Home</h1>
-        <p class="lead">Este es el inicio de la APlicacion EventosUY</p>
-        <p><a href="http://www.asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+        <p class="lead">Este es el inicio de la Aplicacion EventosUY</p>
     </div>
 </asp:Content>

@@ -9,9 +9,15 @@ public partial class Account_crear_evento : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if ((Boolean)Session["logueado"]) //Si esta logeado
+        {
+           
+        }
+        else
+        {
+            Response.Redirect("../Account/Login"); //Si no esta logeado
+        }
     }
-
 
     protected void btnAltaEvento(object sender, EventArgs e)
     {

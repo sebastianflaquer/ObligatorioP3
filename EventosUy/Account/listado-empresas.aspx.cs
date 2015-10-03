@@ -9,10 +9,16 @@ public partial class Account_Default : System.Web.UI.Page
 {
 
     protected void Page_Load(object sender, EventArgs e)
-
     {
-        this.gridListarEmpresas.DataSource = Empresa.listarEmpresas();
-        this.gridListarEmpresas.DataBind();
+        if ((Boolean)Session["logueado"]) //Si esta logeado
+        {
+            this.gridListarEmpresas.DataSource = Empresa.listarEmpresas();
+            this.gridListarEmpresas.DataBind();
+        }
+        else
+        {
+            Response.Redirect("../Account/Login"); //Si no esta logeado
+        }
     }
 
     protected void gridListarEmpresas_RowCommand(object sender, GridViewCommandEventArgs e){         
