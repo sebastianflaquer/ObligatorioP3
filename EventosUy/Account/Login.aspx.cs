@@ -17,12 +17,11 @@ public partial class Account_Login : Page
             Empresa aux = Empresa.Instancia.usuarioValido(this.UserName.Text, this.Password.Text);
             if (aux != null)
             {
-                Session["logeado"] = true;
-                Session["nombre"] = true;
-                Session["email"] = true;
-                Session["tipo"] = true;
-
-                Response.Redirect("Home.aspx");
+                Session["logueado"] = true;
+                //Session["nombre"] = Empresa.Instancia.Nombre.ToString();
+                Session["email"] = aux.MailPublico.ToString();
+                Session["idRol"] = aux.idRol;
+                Response.Redirect("../");
             }
             else
             {

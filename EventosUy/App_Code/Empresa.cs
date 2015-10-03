@@ -13,7 +13,7 @@ public class Empresa
 {
     #region Atributos
 
-    private string midEmpresa;
+    private int midEmpresa;
     private string mNombre;
     private string mTelefono;
     private int midUsuario;
@@ -26,7 +26,7 @@ public class Empresa
 
     #endregion
     #region Propiedades
-    public string idEmpresa
+    public int idEmpresa
     {
         get { return midEmpresa; }
         set { midEmpresa = value; }
@@ -151,6 +151,7 @@ public class Empresa
     public bool borrarEmpresa(int idEmpresa)
     {
         bool retorno = false;
+        
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
@@ -208,7 +209,7 @@ public class Empresa
         while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
         {
             Empresa r = new Empresa();
-            r.midEmpresa = drResults["idEmpresa"].ToString();
+            r.midEmpresa = Convert.ToInt32(drResults["idEmpresa"]);
             r.mNombre = drResults["nombreEmpresa"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
             r.mTelefono = drResults["telEmpresa"].ToString();
             r.mMailPublico = drResults["mailPrimario"].ToString();
@@ -249,7 +250,7 @@ public class Empresa
         while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
         {
             Empresa r = new Empresa();
-            r.midEmpresa = drResults["idEmpresa"].ToString();
+            r.midEmpresa = Convert.ToInt32(drResults["idEmpresa"]);
             r.mNombre = drResults["nombreEmpresa"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
             r.mTelefono = drResults["telEmpresa"].ToString();
             r.mMailPublico = drResults["mailPrimario"].ToString();
@@ -309,10 +310,8 @@ public class Empresa
     {
 
         Empresa unaEmpresa = new Empresa();
-
         SqlCommand cmd = new SqlCommand();
-        cmd.CommandType = CommandType.StoredProcedure;
-        //indico que voy a ejecutar un procedimiento almacenado en la bd
+        cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
         cmd.CommandText = "Usuario_BuscarUsuario";//indico el nombre del procedimiento almacenado a ejecutar
 
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
@@ -325,7 +324,7 @@ public class Empresa
         cn.Open();//abrimos la conexion
         drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
         //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
-
+        
         while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
         {
             string MailPublicoLectura = drResults["MailUsuario"].ToString();
@@ -338,8 +337,9 @@ public class Empresa
                 r.MailPublico = drResults["MailUsuario"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
                 r.Password = drResults["PassUsuario"].ToString();
                 r.idRol = Convert.ToInt32(drResults["idRol"]);
-
                 unaEmpresa = r;
+                unaEmpresa = cargarDatosEmpresa(unaEmpresa);
+                return unaEmpresa;
             }
 
         }
@@ -347,4 +347,37 @@ public class Empresa
         cn.Close(); //cerramos la conexion explicitamente
         return unaEmpresa;
     }
+
+    private Empresa cargarDatosEmpresa(Empresa unaEmpresa)
+    {
+        
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
+        cmd.CommandText = "Empresa_CargarDatos";
+
+        SqlConnection cn = new SqlConnection();//Creamos y configuramos la conexion.
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
+
+        SqlDataReader drResults;
+
+        cmd.Connection = cn;
+        cn.Open();//abrimos la conexion
+        drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
+        //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
+
+        while (drResults.Read()){ //Mientras tenga datos para leer
+            int idUsuario = Convert.ToInt32(drResults["idUsuario"]);
+            if (unaEmpresa.idUsuario == idUsuario){
+                unaEmpresa.idEmpresa = Convert.ToInt32(drResults["idEmpresa"]);
+                unaEmpresa.Nombre = drResults["Nombre"].ToString();
+                unaEmpresa.Telefono = drResults["Telefono"].ToString();
+                unaEmpresa.MailsAdicionales = drResults["Mails"].ToString();
+                unaEmpresa.Url = drResults["Url"].ToString();
+                return unaEmpresa;
+            }
+        }
+        return unaEmpresa;
+    }
+    
 }

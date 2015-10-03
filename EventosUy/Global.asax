@@ -11,13 +11,20 @@
         BundleConfig.RegisterBundles(BundleTable.Bundles);
     }
 
+    //void Session_Start(object sender, EventArgs e)
+    //{
+    //    Session["carritoCompra"] = new List<Articulo>();
+    //    Session["logueado"] = false;
+    //    Session["nombre"] = "";
+    //    Session["email"] = "";
+    //    Session["tipo"] = Cliente.tipoUsuario.Cliente;
+    //}
+
     void Session_Start(object sender, EventArgs e)
     {
-        Session["idEmpresa"] = "";
         Session["logueado"] = false;
         Session["nombre"] = "";
         Session["email"] = "";
-        Session["tipoUsuario"] = "";
-        Session["tipoFuncionario"] = "";
+        Session["idRol"] = "";
     }
 </script>

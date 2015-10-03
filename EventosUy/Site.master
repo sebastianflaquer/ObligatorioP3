@@ -53,7 +53,31 @@
                     <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/">Inicio</a></li>
                     </ul>
-                    <asp:LoginView runat="server" ViewStateMode="Disabled">
+                    <!-- MENU LOGEADO -->
+                    <ul id="divMenuLogeado" visible=false class="nav navbar-nav" runat="server">
+                        <li ID="LinkCrearEvento" Visible="false" runat="server"><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Account/crear-evento">Crear Evento</asp:HyperLink></li>
+                        <li><a runat="server" href="~/Account/busqueda-empresa.aspx">BusquedaE</a></li>
+                        <li><a runat="server" href="~/Account/listado-eventos.aspx">ListadoEven</a></li>
+                        <li><a runat="server" href="~/Account/listado-empresas.aspx">ListadoEmp</a></li>
+                    </ul>
+                    <!-- MENU LOGEADO -->
+
+                    <!-- DATOS LOGEADO -->
+                    <ul id="divDatosLogeado" visible=false class="nav navbar-nav navbar-right" runat="server">
+                        <li><a runat="server" href="~/Account/perfil-empresa.aspx"><asp:Label ID="lblEmailMaster" runat="server"></asp:Label></a></li>
+                        <li><asp:Button CssClass="link" ID="btnCerrarSesion" runat="server" Text="CerrarSesion" onclick="btnCerrarSesion_Click" /></li>
+                    </ul>
+                    <!-- DATOS LOGEADO -->
+
+                    <!-- MENU NO LOGEADO -->
+                    <ul id="divLogin" class="nav navbar-nav navbar-right" runat="server">
+                        <li><a runat="server" href="~/Account/Register">Registro</a></li>
+                        <li><a runat="server" href="~/Account/Login">Login</a></li>
+                    </ul>
+                    <!-- MENU NO LOGEADO -->
+
+
+                    <%--<asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a runat="server" href="~/Account/perfil-empresa.aspx">PerfilE</a></li>
@@ -73,7 +97,7 @@
                                 </li>
                             </ul>
                         </LoggedInTemplate>
-                    </asp:LoginView>
+                    </asp:LoginView>--%>
                 </div>
             </div>
         </div>
