@@ -158,10 +158,9 @@ public class Empresa
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
             {
 
-                //SqlTransaction tr = con.BeginTransaction();
-                //cmd.Transaction = tr;
-                //this.numero = (int)cmd.ExecuteScalar();
-
+                SqlTransaction tr = cn.BeginTransaction();
+                cmd.Transaction = tr;
+                
                 cmd.Connection = cn;
                 cmd.CommandText = "Empresa_EliminarPorId"; //consulta a ejecutar
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
@@ -170,6 +169,11 @@ public class Empresa
                 cmd.ExecuteNonQuery();
                 retorno = true;
                 cn.Close();//cerramos conexion
+
+
+                /****************************************************************************/
+                /* FALTA ELIMINAR EL USUARIO PARA NO GENERAR CONFLICTO AL CREAR UN EVENTO   */
+                /****************************************************************************/
             }
         }
         catch (SqlException ex)

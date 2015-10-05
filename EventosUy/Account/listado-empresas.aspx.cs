@@ -48,12 +48,8 @@ public partial class Account_Default : System.Web.UI.Page
              int idEmpresaNum = Int32.Parse(idEmpresa); //Paso el Strgin a INT - "1" a 1
              Empresa.Instancia.borrarEmpresa(idEmpresaNum);
 
-
-
              this.gridListarEmpresas.DataSource = Empresa.listarEmpresas();
              this.gridListarEmpresas.DataBind();
-
-
 
              //Mensaje no hay tantos
              this.errorField.Visible = true;
