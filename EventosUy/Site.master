@@ -50,15 +50,12 @@
                     <a class="navbar-brand" runat="server" href="~/">EventosUY</a>
                 </div>
                 <div class="navbar-collapse collapse">
+
                     <!-- MENU LOGEADO EMPRESA -->
                     <ul id="divMenuLogeado" visible=false class="nav navbar-nav" runat="server">
-                        <li ID="LinkCrearEvento" Visible="false" runat="server"><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Account/crear-evento">Crear Evento</asp:HyperLink></li>
-                        <li><a>Baja Emp</a></li>
-                        <li><a>Alta Even</a></li>
-                        <li><a>Baja Even</a></li>
-                        <li><a>Hist Even</a></li>
+                        <li><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Account/crear-evento">Crear Evento</asp:HyperLink></li>
+                        <li><a runat="server" href="~/Account/listado-eventos.aspx">Historial Eventos</a></li>
                         <li><a>Busqueda Fecha</a></li>
-                        <li><a runat="server" href="~/Account/listado-eventos.aspx">Listado Even</a></li>
                     </ul>
                     <!-- MENU LOGEADO -->
 

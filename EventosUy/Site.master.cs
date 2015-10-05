@@ -100,10 +100,10 @@ public partial class SiteMaster : MasterPage
 
     protected void btnCerrarSesion_Click(object sender, EventArgs e)
     {
-        Response.Redirect("/");
         Session["logueado"] = false;
         Session["email"] = "";
-        Session["idRol"] = null;
+        Session["idRol"] = -1;
+        Response.Redirect("/");
     }
 
 

@@ -12,7 +12,7 @@ using System.Web;
 public class Evento
 {
     #region Atributos
-
+    private int midEvento;    
     private string mIdEmpresa;
     private string mNombreEmpresa;
     private string mTitulo;
@@ -28,7 +28,11 @@ public class Evento
     
     #endregion
     #region Propiedades
-
+    public int idEvento
+    {
+        get { return midEvento; }
+        set { midEvento = value; }
+    }
     public string IdEmpresa
     {
         get { return mIdEmpresa; }
@@ -106,24 +110,23 @@ public class Evento
     }
 
     //Guargua el objeto Evento
-    public void GuardarEvento(string Titulo, string Descripcion, string NombreArtista, string Fecha, string Hora, string NombreLugar, string DireccionLugar, string BarrioLugar, string CapasidadMaxima, System.IO.Stream Imagen, string Precio)
+    public int GuardarEvento(string Titulo, string Descripcion, string NombreArtista, string Fecha, string Hora, string NombreLugar, string DireccionLugar, string BarrioLugar, string CapasidadMaxima, System.IO.Stream Imagen, string Precio, string userEmail)
     {
         //string de conexion
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
-        
-        int idEmpresa = 1;//aca va la referencia a la empresa que esta actualmente.
+
+        Empresa unaEmpresa = Empresa.Instancia.cargarDatosEmpresa(userEmail);
+        int idEmpresa = unaEmpresa.idEmpresa; //aca va la referencia a la empresa que esta actualmente.
         int afectadas = 0;
         
         try
         {
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
             {
-                
                 cmd.Connection = cn;
                 cmd.CommandText = "Eventos_Insert"; //consulta a ejecutar
-
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
                 cmd.Parameters.Add(new SqlParameter("@Titulo", Titulo));
                 cmd.Parameters.Add(new SqlParameter("@Descripcion", Descripcion));
@@ -150,6 +153,7 @@ public class Evento
                 cn.Open();//abrimos conexion
                 afectadas = cmd.ExecuteNonQuery();//ejecutamos la consulta y capturamos nro de filas afectadas
                 cn.Close();//cerramos conexion
+                return afectadas;
             }
         }
         catch (SqlException ex)
@@ -160,10 +164,11 @@ public class Evento
         {
 
         }
+        return afectadas;
     }
 
     //Baja de evento - Borrar Evento
-    public bool borrarEvento(string tituloEvento)
+    public bool borrarEvento(int idEvento)
     {
         bool retorno = false;
 
@@ -176,9 +181,9 @@ public class Evento
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
             {
                 cmd.Connection = cn;
-                cmd.CommandText = "Evento_EliminarPorTitulo"; //consulta a ejecutar
+                cmd.CommandText = "Evento_EliminarPorIdEvento"; //consulta a ejecutar
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
-                cmd.Parameters.Add(new SqlParameter("@tituloEvento", tituloEvento));//agregamos parametros para la consulta
+                cmd.Parameters.Add(new SqlParameter("@idEvento", idEvento));//agregamos parametros para la consulta
                 cn.Open();//abrimos conexion
                 cmd.ExecuteNonQuery();
                 retorno = true;

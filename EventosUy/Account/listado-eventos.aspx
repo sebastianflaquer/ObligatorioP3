@@ -7,9 +7,19 @@
     <!-- Listado de Eventos -->
     <h2><%: Title %></h2>
         
+    <div class="row-fluid" id="errorField" runat="server" visible=false>
+        <div class="span12" ID="lblErrorMsj" runat="server">
+            <div class="alert alert-error"  >
+                <button data-dismiss="alert" class="close" type="button">×</button>            
+                <asp:Label  Text="Label"></asp:Label>
+            </div>
+        </div>
+    </div>
+
     <div class="md-content-tebale-empresa">
         <asp:GridView ID="gridListarEventos" CssClass="table table-bordered" runat="server" AutoGenerateColumns="False" OnRowCommand="gridListarEventos_RowCommand" Width="100%">
             <Columns>
+                <asp:BoundField DataField="idEvento" HeaderText="Id" />
                 <asp:BoundField DataField="Titulo" HeaderText="Nombre" />
                 <asp:BoundField DataField="Descripcion" HeaderText="Descripcion" />
                 <asp:BoundField DataField="Nombreartistas" HeaderText="Nombre Artista" />

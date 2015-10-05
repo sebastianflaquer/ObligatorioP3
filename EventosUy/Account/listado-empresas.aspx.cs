@@ -12,8 +12,26 @@ public partial class Account_Default : System.Web.UI.Page
     {
         if ((Boolean)Session["logueado"]) //Si esta logeado
         {
-            this.gridListarEmpresas.DataSource = Empresa.listarEmpresas();
-            this.gridListarEmpresas.DataBind();
+            if (Convert.ToInt32(Session["idRol"]) == 1)
+            { //Si es Empresa
+                Response.Redirect("../Account/Login"); //Si no esta logeado
+            }
+            else
+            {//Si es admin
+                List<Empresa> listaEmpresa = new List<Empresa>();
+                listaEmpresa = Empresa.listarEmpresas();
+                if (listaEmpresa.Count > 0)
+                {
+                    this.gridListarEmpresas.DataSource = listaEmpresa;
+                    this.gridListarEmpresas.DataBind();
+                }
+                else {
+                    //Mensaje no hay tantos
+                    this.errorField.Visible = true;
+                    this.lblErrorMsj.InnerHtml = "<div class='alert alert-warning'><button data-dismiss='alert' class='close' type='button'>×</button><strong>Ohh Margot!  </strong><span>No hay Empresas que mostrar.</span></div>";
+                
+                }
+            }
         }
         else
         {
@@ -30,12 +48,16 @@ public partial class Account_Default : System.Web.UI.Page
              int idEmpresaNum = Int32.Parse(idEmpresa); //Paso el Strgin a INT - "1" a 1
              Empresa.Instancia.borrarEmpresa(idEmpresaNum);
 
+
+
              this.gridListarEmpresas.DataSource = Empresa.listarEmpresas();
              this.gridListarEmpresas.DataBind();
 
+
+
              //Mensaje no hay tantos
-             //this.errorField.Visible = true;
-             //this.lblErrorMsj.InnerHtml = "<div class='alert alert-success'><button data-dismiss='alert' class='close' type='button'>×</button><strong>Well done!  </strong><span>Pedido eliminado correctamente</span></div>";
+             this.errorField.Visible = true;
+             this.lblErrorMsj.InnerHtml = "<div class='alert alert-success'><button data-dismiss='alert' class='close' type='button'>×</button><strong>Well done!  </strong><span>Pedido eliminado correctamente</span></div>";
 
          }
     }

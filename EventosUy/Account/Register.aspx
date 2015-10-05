@@ -2,6 +2,16 @@
 
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
     <h2><%: Title %>.</h2>
+
+    <div class="row-fluid" id="errorField" runat="server" visible=false>
+        <div class="span12" ID="lblErrorMsj" runat="server">
+            <div class="alert alert-error"  >
+                <button data-dismiss="alert" class="close" type="button">×</button>            
+                <asp:Label  Text="Label"></asp:Label>
+            </div>
+        </div>
+    </div>
+
     <p class="text-danger">
         <asp:Literal runat="server" ID="ErrorMessage" />
     </p>
@@ -53,7 +63,7 @@
         <!-- END TELEFONO EMPRESA -->
         
         <!-- MAIL PUBLICO EMPRESA -->
-        <div class="form-group">
+        <div id="formMailPrincipal" runat="server" class="form-group">
             <asp:Label runat="server" AssociatedControlID="EmpresaMailPublico" CssClass="col-md-2 control-label">Mail Principal</asp:Label>
             <div class="col-md-10">
                 <asp:TextBox runat="server" ID="EmpresaMailPublico" TextMode="Email" CssClass="form-control" />

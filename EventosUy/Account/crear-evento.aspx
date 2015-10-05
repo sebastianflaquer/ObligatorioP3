@@ -3,6 +3,16 @@
 
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
     <h2><%: Title %>.</h2>
+
+    <div class="row-fluid" id="errorField" runat="server" visible=false>
+        <div class="span12" ID="lblErrorMsj" runat="server">
+            <div class="alert alert-error"  >
+                <button data-dismiss="alert" class="close" type="button">×</button>            
+                <asp:Label  Text="Label"></asp:Label>
+            </div>
+        </div>
+    </div>
+
     <p class="text-danger">
         <asp:Literal runat="server" ID="ErrorMessage" />
     </p>

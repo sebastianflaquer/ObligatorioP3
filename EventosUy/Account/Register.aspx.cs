@@ -36,15 +36,31 @@ public partial class Account_Register : Page
         //{
         // //validar aca que el mail no se repita
         //}
+        
+        bool mailUnico = Empresa.Instancia.ValidarMailUnico(EmpresaMailPublico.Text);
 
-        Empresa.Instancia.GuardarEmpresa(
-            EmpresaName.Text,
-            EmpresaTelefono.Text,
-            EmpresaMailPublico.Text,
-            EmpresaMailAdicional.Text,
-            EmpresaUrl.Text,
-            EmpresaPassword.Text
-        );
+        if (mailUnico)
+        {
+            int afectadas = Empresa.Instancia.GuardarEmpresa(
+                EmpresaName.Text,
+                EmpresaTelefono.Text,
+                EmpresaMailPublico.Text,
+                EmpresaMailAdicional.Text,
+                EmpresaUrl.Text,
+                EmpresaPassword.Text
+            );
+            if (afectadas == -1){
+                this.errorField.Visible = true;
+                this.lblErrorMsj.InnerHtml = "<div class='alert alert-success'><button data-dismiss='alert' class='close' type='button'>×</button><span>Empresa registrada con Exito.</span></div>";
+            }
+        }
+        else{
+            this.errorField.Visible = true;
+            this.lblErrorMsj.InnerHtml = "<div class='alert alert-warning'><button data-dismiss='alert' class='close' type='button'>×</button><span>Ya existe una empresa con ese Mail Principal, debe utilizar otro.</span></div>";
+            this.formMailPrincipal.Attributes.Add("class", "has-error");
+        }
+
+        
     }
 
 }
