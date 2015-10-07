@@ -86,18 +86,18 @@ public class UsuarioEventosUY
     #endregion
 
     //Lo instanciamos para poder usarlo
-    public static UsuarioEventosUY mInstancia;
-    public static UsuarioEventosUY Instancia
-    {
-        get
-        {
-            if (UsuarioEventosUY.mInstancia == null)
-            {
-                UsuarioEventosUY.mInstancia = new UsuarioEventosUY();
-            }
-            return UsuarioEventosUY.mInstancia;
-        }
-    }
+    //public static UsuarioEventosUY mInstancia;
+    //public static UsuarioEventosUY Instancia
+    //{
+    //    get
+    //    {
+    //        if (UsuarioEventosUY.mInstancia == null)
+    //        {
+    //            UsuarioEventosUY.mInstancia = new UsuarioEventosUY();
+    //        }
+    //        return UsuarioEventosUY.mInstancia;
+    //    }
+    //}
 
     public int CargarUsuario(string UserName, string Password){
 

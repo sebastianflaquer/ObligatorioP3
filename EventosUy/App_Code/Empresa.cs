@@ -73,23 +73,26 @@ public class Empresa
     
 
     //Lo instanciamos para poder usarlo
-    public static Empresa mInstancia;
-    public static Empresa Instancia
+    //public static Empresa mInstancia;
+    //private int idEmpresaNum1;
+
+    //public static Empresa Instancia
+    //{
+    //    get
+    //    {
+    //        if (Empresa.mInstancia == null)
+    //        {
+    //            Empresa.mInstancia = new Empresa();
+    //        }
+    //        return Empresa.mInstancia;
+    //    }
+    //}
+
+    //-------------------------- ACTIVE RECORD ------------------------------------//
+    #region ACTIVE RECORD
+    //Guardar General
+    public int guardar()
     {
-        get
-        {
-            if (Empresa.mInstancia == null)
-            {
-                Empresa.mInstancia = new Empresa();
-            }
-            return Empresa.mInstancia;
-        }
-    }
-
-
-    //GUARDAR EMPRESA
-    public int GuardarEmpresa(string Nombre, string Telefono, string MailPublico, string MailsAdicionales, string Url, string Password)
-    {   
         //string de conexion
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
@@ -100,7 +103,7 @@ public class Empresa
 
         //declaramos  el Transaction
         SqlTransaction trn = null;
-        
+
         try
         {
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
@@ -111,7 +114,7 @@ public class Empresa
                 cmd.Parameters.Add(new SqlParameter("@mailPrimario", MailPublico));
                 cmd.Parameters.Add(new SqlParameter("@Password", Password));
                 cn.Open(); //abrimos conexion
-                
+
                 //CREAMOS LA TRANSACCION
                 trn = cn.BeginTransaction();//iniciamos la transaccion 
                 cmd.Transaction = trn;
@@ -144,11 +147,13 @@ public class Empresa
         //return afectadas;
     }
 
-    //BORRAR EMPRESA
-    public bool borrarEmpresa(int idEmpresa)
-    {
+    //Borrar General
+    public bool borrar(){
+
         bool retorno = false;
-        
+
+        //int idUsuario = Empresa.Instancia.BuscarIdUsuarioPorIdEmpresa(idEmpresaNum);
+
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
@@ -160,16 +165,21 @@ public class Empresa
 
                 SqlTransaction tr = cn.BeginTransaction();
                 cmd.Transaction = tr;
-                
+
                 cmd.Connection = cn;
                 cmd.CommandText = "Empresa_EliminarPorId"; //consulta a ejecutar
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
-                cmd.Parameters.Add(new SqlParameter("@idEmpresa", idEmpresa));//agregamos parametros para la consulta
+                cmd.Parameters.Add(new SqlParameter("@idEmpresa", this.idEmpresa));//agregamos parametros para la consulta
                 cn.Open();//abrimos conexion
                 cmd.ExecuteNonQuery();
+
+                //cmd.CommandText = "Eliminar_UsuarioPorIdEmpresa"; //Elimina el usuario por el id de Empresa
+                //cmd.Parameters.Clear();
+                //cmd.Parameters.Add(new SqlParameter("@idUsuario", ))
+                cmd.ExecuteNonQuery();
+
                 retorno = true;
                 cn.Close();//cerramos conexion
-
 
                 /****************************************************************************/
                 /* FALTA ELIMINAR EL USUARIO PARA NO GENERAR CONFLICTO AL CREAR UN EVENTO   */
@@ -185,7 +195,84 @@ public class Empresa
 
         }
         return retorno;
+    
     }
+
+    #endregion ACTIVE RECORD
+    //-------------------------- ACTIVE RECORD ------------------------------------//
+
+
+
+    //GUARDAR EMPRESA
+    public static int GuardarEmpresa(string Nombre, string Telefono, string MailPublico, string MailsAdicionales, string Url, string Password)
+    {   
+        Empresa em=new Empresa( Nombre,  Telefono,  MailPublico,  MailsAdicionales,  Url,  Password);
+        return    em.guardar();
+
+    }
+
+    //BORRAR EMPRESA
+    public static bool borrarEmpresa(int idEmpresa)
+    {
+        Empresa em = new Empresa(idEmpresa);
+        return em.borrar();
+        
+    }
+
+    //RESPALDO---------------------------------------------------------------------------------
+    //public bool borrarEmpresa(int idEmpresa)
+    //{
+    //    bool retorno = false;
+
+    //    //int idUsuario = Empresa.Instancia.BuscarIdUsuarioPorIdEmpresa(idEmpresaNum);
+
+    //    SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
+    //    string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+    //    cn.ConnectionString = cadenaConexion;
+
+    //    try
+    //    {
+    //        using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
+    //        {
+
+    //            SqlTransaction tr = cn.BeginTransaction();
+    //            cmd.Transaction = tr;
+
+    //            cmd.Connection = cn;
+    //            cmd.CommandText = "Empresa_EliminarPorId"; //consulta a ejecutar
+    //            cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
+    //            cmd.Parameters.Add(new SqlParameter("@idEmpresa", idEmpresa));//agregamos parametros para la consulta
+    //            cn.Open();//abrimos conexion
+    //            cmd.ExecuteNonQuery();
+
+    //            //cmd.CommandText = "Eliminar_UsuarioPorIdEmpresa"; //Elimina el usuario por el id de Empresa
+    //            //cmd.Parameters.Clear();
+    //            //cmd.Parameters.Add(new SqlParameter("@idUsuario", ))
+    //            cmd.ExecuteNonQuery();
+
+    //            retorno = true;
+    //            cn.Close();//cerramos conexion
+
+    //            /****************************************************************************/
+    //            /* FALTA ELIMINAR EL USUARIO PARA NO GENERAR CONFLICTO AL CREAR UN EVENTO   */
+    //            /****************************************************************************/
+    //        }
+    //    }
+    //    catch (SqlException ex)
+    //    {
+    //        //loguear excepcion
+    //    }
+    //    finally
+    //    {
+
+    //    }
+    //    return retorno;
+    //}
+
+    //private int BuscarIdUsuarioPorIdEmpresa(object idEmpresaNum)
+    //{
+    //    //Aca agregar el codigo para buscar el usuario segun la empresa.
+    //}
 
     //BUSCAR EMPRESA
     public List<Empresa> BuscarEmpresa(string txtbuscar)
@@ -408,7 +495,7 @@ public class Empresa
     }
 
     //VALIDAR MAIL UNICO
-    public bool ValidarMailUnico(string mailPrincipal)
+    public static bool ValidarMailUnico(string mailPrincipal)
     {
 
        bool mailUnico =  true;
@@ -440,4 +527,39 @@ public class Empresa
 
         return mailUnico;
     }
+
+    //BuscarEventosPorFecha
+    public List<Evento> BuscarEventosPorFecha( DateTime FechaInicial, DateTime FechaFinal){
+
+        List<Evento> unaLista = new List<Evento>();
+        return unaLista;
+    }
+
+    //-------------------------- CONSTRUCTORES ------------------------------------//
+    #region CONSTRUCTORES
+    
+    //EMPRESA
+    public Empresa()
+    { }
+
+    //EMPRESA INT ID
+    public Empresa(int id)
+    {
+        // TODO: Complete member initialization
+        this.idEmpresa = id;
+    }
+
+    //EMPRESA ALLDATA
+    public Empresa(string Nom, string Tel, string Mail, string MailsA, string Uri, string Pass)
+    {
+        Nombre = Nom;
+        Telefono = Tel;
+        MailPublico = Mail;
+        MailsAdicionales = MailsA;
+        Url = Uri;
+        Password = Pass;
+    }
+
+    #endregion CONSTRUCTORES
+    //-------------------------- END CONSTRUCTORES --------------------------------//
 }

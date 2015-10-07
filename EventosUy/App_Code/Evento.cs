@@ -96,18 +96,27 @@ public class Evento
     #endregion
 
     //Lo instanciamos para poder usarlo
-    private static Evento mInstancia;
-    public static Evento Instancia
-    {
-        get
-        {
-            if (Evento.mInstancia == null)
-            {
-                Evento.mInstancia = new Evento();
-            }
-            return Evento.mInstancia;
-        }
-    }
+    //private static Evento mInstancia;
+    //public static Evento Instancia
+    //{
+    //    get
+    //    {
+    //        if (Evento.mInstancia == null)
+    //        {
+    //            Evento.mInstancia = new Evento();
+    //        }
+    //        return Evento.mInstancia;
+    //    }
+    //}
+
+
+
+    //test
+    //Evento E = new Evento();
+
+    //test
+
+
 
     //Guargua el objeto Evento
     public int GuardarEvento(string Titulo, string Descripcion, string NombreArtista, string Fecha, string Hora, string NombreLugar, string DireccionLugar, string BarrioLugar, string CapasidadMaxima, System.IO.Stream Imagen, string Precio, string userEmail)

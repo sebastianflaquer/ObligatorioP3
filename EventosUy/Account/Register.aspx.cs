@@ -37,11 +37,11 @@ public partial class Account_Register : Page
         // //validar aca que el mail no se repita
         //}
         
-        bool mailUnico = Empresa.Instancia.ValidarMailUnico(EmpresaMailPublico.Text);
+        bool mailUnico = Empresa.ValidarMailUnico(EmpresaMailPublico.Text);
 
         if (mailUnico)
         {
-            int afectadas = Empresa.Instancia.GuardarEmpresa(
+            int afectadas = Empresa.GuardarEmpresa(
                 EmpresaName.Text,
                 EmpresaTelefono.Text,
                 EmpresaMailPublico.Text,
