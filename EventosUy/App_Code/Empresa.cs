@@ -21,6 +21,8 @@ public class Empresa
     private string mMailsAdicionales;
     private string mUrl;
     private int midRol;
+    private string mail;
+    private string pass;
     
 
     #endregion
@@ -98,7 +100,6 @@ public class Empresa
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
 
-        int idUsuario = 0;
         int afectadas = 0;
 
         //declaramos  el Transaction
@@ -111,8 +112,8 @@ public class Empresa
                 cmd.Connection = cn;
                 cmd.CommandText = "Usuarios_Insert"; //consulta a ejecutar
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
-                cmd.Parameters.Add(new SqlParameter("@mailPrimario", MailPublico));
-                cmd.Parameters.Add(new SqlParameter("@Password", Password));
+                cmd.Parameters.Add(new SqlParameter("@mailPrimario", this.MailPublico));
+                cmd.Parameters.Add(new SqlParameter("@Password", this.Password));
                 cn.Open(); //abrimos conexion
 
                 //CREAMOS LA TRANSACCION
@@ -123,11 +124,11 @@ public class Empresa
 
                 cmd.CommandText = "Empresa_Insert";//Pisamos el CommandText
                 cmd.Parameters.Clear();//Limpiamos los Parametros
-                cmd.Parameters.Add(new SqlParameter("@Nombre", Nombre)); //agregamos parametros para la consulta
-                cmd.Parameters.Add(new SqlParameter("@Telefono", Telefono));
-                cmd.Parameters.Add(new SqlParameter("@Mails", MailsAdicionales));
-                cmd.Parameters.Add(new SqlParameter("@Url", Url));
-                cmd.Parameters.Add(new SqlParameter("@idUsuario", idUsuario));
+                cmd.Parameters.Add(new SqlParameter("@Nombre", this.Nombre)); //agregamos parametros para la consulta
+                cmd.Parameters.Add(new SqlParameter("@Telefono", this.Telefono));
+                cmd.Parameters.Add(new SqlParameter("@Mails", this.MailsAdicionales));
+                cmd.Parameters.Add(new SqlParameter("@Url", this.Url));
+                cmd.Parameters.Add(new SqlParameter("@idUsuario", this.idUsuario));
 
                 afectadas = cmd.ExecuteNonQuery(); //ejecutamos la consulta y capturamos nro de filas afectadas
                 trn.Commit();//Si todo sale bien Ejecuta las consultas                
@@ -198,17 +199,91 @@ public class Empresa
     
     }
 
+    //Cargar Empresa
+    public Empresa cargarEmpresa()
+    {
+        SqlConnection cn = new SqlConnection();//Creamos y configuramos la conexion.
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
+
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
+        cmd.CommandText = "Usuario_BuscarUsuario";//indico el nombre del procedimiento almacenado a ejecutar
+
+        SqlDataReader drResults;
+
+        cmd.Connection = cn;
+        cn.Open();//abrimos la conexion
+        drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
+        //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
+
+        
+        while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
+        {
+            string MailPublicoLectura = drResults["MailUsuario"].ToString();            
+
+            if (MailPublicoLectura == this.MailPublico)
+            {                
+                this.idUsuario = Convert.ToInt32(drResults["idUsuario"]);
+                this.MailPublico = drResults["MailUsuario"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
+                this.Password = drResults["PassUsuario"].ToString();
+                this.idRol = Convert.ToInt32(drResults["idRol"]);
+                this.cargarDatosDeEmpresa();
+                return this;
+            }
+
+        }
+
+        drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
+        cn.Close(); //cerramos la conexion explicitamente
+        return this;
+    }
+
+    public Empresa cargarDatosDeEmpresa()
+    {
+        SqlConnection cn = new SqlConnection();//Creamos y configuramos la conexion.
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
+
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
+        cmd.CommandText = "Empresa_CargarDatos";
+
+        SqlDataReader drResults;
+
+        cmd.Connection = cn;
+        cn.Open();//abrimos la conexion
+        drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
+        //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
+
+        while (drResults.Read()) //Mientras tenga datos para leer
+        {
+            int idUser = Convert.ToInt32(drResults["idUsuario"]);
+
+            if (this.idUsuario == idUser)
+            {
+                int id = Convert.ToInt32(drResults["idEmpresa"]);
+                this.idEmpresa = id;
+                this.Nombre = drResults["Nombre"].ToString();
+                this.Telefono = drResults["Telefono"].ToString();
+                this.MailsAdicionales = drResults["Mails"].ToString();
+                this.Url = drResults["Url"].ToString();
+                return this;
+            }
+        }
+        drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
+        cn.Close(); //cerramos la conexion explicitamente
+        return this;
+    }
+
     #endregion ACTIVE RECORD
     //-------------------------- ACTIVE RECORD ------------------------------------//
-
-
 
     //GUARDAR EMPRESA
     public static int GuardarEmpresa(string Nombre, string Telefono, string MailPublico, string MailsAdicionales, string Url, string Password)
     {   
         Empresa em=new Empresa( Nombre,  Telefono,  MailPublico,  MailsAdicionales,  Url,  Password);
         return    em.guardar();
-
     }
 
     //BORRAR EMPRESA
@@ -216,7 +291,18 @@ public class Empresa
     {
         Empresa em = new Empresa(idEmpresa);
         return em.borrar();
-        
+    }
+
+    public static Empresa cargarEmpresaDatos(string mail, string pass)
+    {
+        Empresa em = new Empresa(mail, pass);
+        return em.cargarEmpresa();
+    }
+
+    public static Empresa cargarEmpresaMail(string mail)
+    {
+        Empresa em = new Empresa(mail);
+        return em.cargarEmpresa();
     }
 
     //RESPALDO---------------------------------------------------------------------------------
@@ -413,86 +499,8 @@ public class Empresa
         return lst;
     }
     
-    //CARGAR DATOS EMPRESA
-    public Empresa cargarDatosEmpresa(string UserName)
-    {
-        
-        SqlConnection cn = new SqlConnection();//Creamos y configuramos la conexion.
-        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
-        cn.ConnectionString = cadenaConexion;
-
-        SqlCommand cmd = new SqlCommand();
-        cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
-        cmd.CommandText = "Usuario_BuscarUsuario";//indico el nombre del procedimiento almacenado a ejecutar
-
-        SqlDataReader drResults;
-
-        cmd.Connection = cn;
-        cn.Open();//abrimos la conexion
-        drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
-        //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
-
-        Empresa unaEmpresa = new Empresa();
-
-        while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
-        {
-            string MailPublicoLectura = drResults["MailUsuario"].ToString();
-            string PasswordLectura = drResults["PassUsuario"].ToString();
-
-            if (MailPublicoLectura == UserName)
-            {
-                Empresa r = new Empresa();
-                r.idUsuario = Convert.ToInt32(drResults["idUsuario"]);
-                r.MailPublico = drResults["MailUsuario"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
-                r.Password = drResults["PassUsuario"].ToString();
-                r.idRol = Convert.ToInt32(drResults["idRol"]);
-                unaEmpresa = r;
-                unaEmpresa = cargarDatosDeEmpresa(unaEmpresa);
-                return unaEmpresa;
-            }
-
-        }
-
-        drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
-        cn.Close(); //cerramos la conexion explicitamente
-        return unaEmpresa;
-        
-    }
-
     //CARGAR DATOS DE EMPRESA
-    public Empresa cargarDatosDeEmpresa(Empresa unaEmpresa)
-    {
-
-        SqlConnection cn = new SqlConnection();//Creamos y configuramos la conexion.
-        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
-        cn.ConnectionString = cadenaConexion;
-
-        SqlCommand cmd = new SqlCommand();
-        cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
-        cmd.CommandText = "Empresa_CargarDatos";
-
-        SqlDataReader drResults;
-
-        cmd.Connection = cn;
-        cn.Open();//abrimos la conexion
-        drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
-        //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
-
-        while (drResults.Read())
-        { //Mientras tenga datos para leer
-            int idUsuario = Convert.ToInt32(drResults["idUsuario"]);
-            if (unaEmpresa.idUsuario == idUsuario)
-            {
-                unaEmpresa.idEmpresa = Convert.ToInt32(drResults["idEmpresa"]);
-                unaEmpresa.Nombre = drResults["Nombre"].ToString();
-                unaEmpresa.Telefono = drResults["Telefono"].ToString();
-                unaEmpresa.MailsAdicionales = drResults["Mails"].ToString();
-                unaEmpresa.Url = drResults["Url"].ToString();
-                return unaEmpresa;
-            }
-        }
-        return unaEmpresa;
-    }
+    
 
     //VALIDAR MAIL UNICO
     public static bool ValidarMailUnico(string mailPrincipal)
@@ -560,6 +568,22 @@ public class Empresa
         Password = Pass;
     }
 
+    public Empresa(string email)
+    {
+        this.MailPublico = mail;
+    }
+
+    //cargar empresa
+    public Empresa(string mail, string pass)
+    {
+        this.MailPublico = mail;
+        this.Password = pass;
+    }
+
+    
+
     #endregion CONSTRUCTORES
     //-------------------------- END CONSTRUCTORES --------------------------------//
+
+    
 }

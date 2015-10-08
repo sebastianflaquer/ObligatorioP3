@@ -95,7 +95,7 @@
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="EventoBarrioLugar" CssClass="col-md-2 control-label">Barrio Lugar</asp:Label>
             <div class="col-md-10">
-                <asp:DropDownList ID="EventoBarrioLugar" runat="server">
+                <asp:DropDownList ID="EventoBarrioLugar" CssClass="form-control" runat="server">
                     <asp:ListItem Value="Pocitos"></asp:ListItem>
                     <asp:ListItem Value="Punta Carretas"></asp:ListItem>
                     <asp:ListItem>Parque Rodo</asp:ListItem>

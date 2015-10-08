@@ -46,16 +46,6 @@ public partial class Account_Default : System.Web.UI.Page
              
              string idEmpresa = fila.Cells[0].Text;
              int idEmpresaNum = Int32.Parse(idEmpresa); //Paso el Strgin a INT - "1" a 1
-           
-
-             //TEST ActiveClase
-
-             Empresa unaEmpresa = new Empresa(idEmpresaNum);
-             unaEmpresa.borrarEmpresa();
-
-             //TEST
-
-
 
              this.gridListarEmpresas.DataSource = Empresa.listarEmpresas();
              this.gridListarEmpresas.DataBind();

@@ -21,26 +21,27 @@ public partial class Account_Login : Page
 
         protected void LogIn(object sender, EventArgs e)
         {
-            
-            int idrol = UsuarioEventosUY.Instancia.CargarUsuario(this.UserName.Text, this.Password.Text);
 
-            if (idrol == 1) {
+            int idrol = UsuarioEventosUY.validarSiesAdminOEmpresa(this.UserName.Text, this.Password.Text);
 
-                Empresa unaEmpresa = new Empresa();
-                unaEmpresa = Empresa.Instancia.cargarDatosEmpresa(this.UserName.Text);
+            //
+            //int idrol = unEuy.idRol;
+
+            if (idrol == 1) { //SI ES ADMINISTRADOR
+                
+                UsuarioEventosUY unEuy = UsuarioEventosUY.CargarAdmin(this.UserName.Text, this.Password.Text);
                 Session["logueado"] = true;
-                Session["nombre"] = unaEmpresa.Nombre;
-                Session["email"] = unaEmpresa.MailPublico;
+                Session["nombre"] = unEuy.Nombre;
+                Session["email"] = unEuy.Email;
                 Session["idRol"] = idrol;
                 Response.Redirect("../");
 
-            }else if(idrol == 2){
+            }else if(idrol == 2){ //SI ES EMPRESA
 
-                UsuarioEventosUY unUsuarioEventoUy = new UsuarioEventosUY();
-                unUsuarioEventoUy = UsuarioEventosUY.Instancia.cargarDatosUsuario(this.UserName.Text);
+                Empresa unaEmpresa = Empresa.cargarEmpresaDatos(this.UserName.Text, this.Password.Text);
                 Session["logueado"] = true;
-                Session["nombre"] = unUsuarioEventoUy.Nombre;
-                Session["email"] = unUsuarioEventoUy.Email;
+                Session["nombre"] = unaEmpresa.Nombre;
+                Session["email"] = unaEmpresa.MailPublico;
                 Session["idRol"] = idrol;
                 Response.Redirect("../");
 

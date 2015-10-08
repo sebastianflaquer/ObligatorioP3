@@ -25,7 +25,7 @@ public partial class Account_busqueda_empresa : System.Web.UI.Page
     {   
         List<Empresa> listaEmpresaBuscada = new List<Empresa>();
         string buscar = txtBuscarForm.Text;
-        listaEmpresaBuscada = Empresa.Instancia.BuscarEmpresa(buscar);
+        //listaEmpresaBuscada = Empresa.Instancia.BuscarEmpresa(buscar);
         
         //Empresa empresaBuscada = new Empresa();
         //listaEmpresaBuscada.Add(empresaBuscada);

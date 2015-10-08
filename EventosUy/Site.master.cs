@@ -81,11 +81,14 @@ public partial class SiteMaster : MasterPage
             this.divLogin.Visible = false;            
             this.divDatosLogeado.Visible = true;
 
-            if (Convert.ToInt32(Session["idRol"]) == 1)//Empresa
+            string Sidrol = Session["idRol"].ToString();
+            int idrol = Convert.ToInt32(Sidrol);
+
+            if (idrol == 1)//Empresa
             {
                 this.divMenuLogeado.Visible = true;
             }
-            if (Convert.ToInt32(Session["idRol"]) == 2)//Usuario
+            else if (idrol == 2)//Usuario
             {   
                 this.divMenuLogeadoUsuario.Visible = true;
             }

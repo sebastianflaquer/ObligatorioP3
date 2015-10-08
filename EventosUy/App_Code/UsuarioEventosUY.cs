@@ -20,7 +20,6 @@ public class UsuarioEventosUY
     private string mPassword;
     private int midUsuario;
     private int mNroFuncionario;    
-    private string mDirFisica;    
     private string mTelefono;    
     private string mCargo;
     private int midRol;   
@@ -63,11 +62,6 @@ public class UsuarioEventosUY
         get { return mNroFuncionario; }
         set { mNroFuncionario = value; }
     }
-    public string DirFisica
-    {
-        get { return mDirFisica; }
-        set { mDirFisica = value; }
-    }
     public string Telefono
     {
         get { return mTelefono; }
@@ -99,9 +93,11 @@ public class UsuarioEventosUY
     //    }
     //}
 
-    public int CargarUsuario(string UserName, string Password){
+    //-------------------------- ACTIVE RECORD ------------------------------------//
+    #region ACTIVE RECORD
 
-        int idrol = -1;
+    //Cargar Empresa
+    public UsuarioEventosUY cargar() {
 
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
@@ -123,23 +119,34 @@ public class UsuarioEventosUY
             string MailPublicoLectura = drResults["MailUsuario"].ToString();
             string PasswordLectura = drResults["PassUsuario"].ToString();
 
-            if (MailPublicoLectura == UserName && PasswordLectura == Password)
+            if (MailPublicoLectura == this.Email && PasswordLectura == this.Password)
             {
-                idrol = Convert.ToInt32(drResults["idRol"]);
-                return idrol;
+                this.idUsuario = Convert.ToInt32(drResults["idUsuario"]);
+                this.idRol = Convert.ToInt32(drResults["idRol"]);
+                this.cargarDatosDeUsuario();
+                return this;
             }
         }
-
-        return idrol;
+        return this;
     }
 
+    #endregion ACTIVE RECORD
+    //-------------------------- ACTIVE RECORD ------------------------------------//
 
+    //CARGAR USUARIO
+    public static UsuarioEventosUY CargarAdmin(string mail, string pass)
+    {
+        UsuarioEventosUY Euy = new UsuarioEventosUY(mail, pass);
+        return Euy.cargar();
+    }
 
-    //CARGAR DATOS EMPRESA
-    public UsuarioEventosUY cargarDatosUsuario(string UserName)
+    //VALIDAR SI ES USUARIO O EMPRESA
+    public static int validarSiesAdminOEmpresa(string mail, string pass)
     {
 
-        SqlConnection cn = new SqlConnection();//Creamos y configuramos la conexion.
+        int idRol = -1;//si devuelve -1 no encontro el usuario
+
+        SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
 
@@ -154,35 +161,70 @@ public class UsuarioEventosUY
         drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
         //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
 
-        UsuarioEventosUY unUsuario = new UsuarioEventosUY();
-
         while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
         {
             string MailPublicoLectura = drResults["MailUsuario"].ToString();
             string PasswordLectura = drResults["PassUsuario"].ToString();
-
-            if (MailPublicoLectura == UserName)
+            
+            if (MailPublicoLectura ==  mail && PasswordLectura == pass)
             {
-                UsuarioEventosUY r = new UsuarioEventosUY();
-                r.idUsuario = Convert.ToInt32(drResults["idUsuario"]);
-                r.Email = drResults["MailUsuario"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
-                r.Password = drResults["PassUsuario"].ToString();
-                r.idRol = Convert.ToInt32(drResults["idRol"]);
-                unUsuario = r;
-                unUsuario = cargarDatosDeUsuario(unUsuario);
-                return unUsuario;
+                idRol = Convert.ToInt32(drResults["idRol"]);
+                return idRol;
             }
-
         }
-
-        drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
-        cn.Close(); //cerramos la conexion explicitamente
-        return unUsuario;
-
+        return idRol;   
     }
 
+    //CARGAR DATOS EMPRESA
+    //public UsuarioEventosUY cargarDatosUsuario(string UserName)
+    //{
+
+    //    SqlConnection cn = new SqlConnection();//Creamos y configuramos la conexion.
+    //    string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+    //    cn.ConnectionString = cadenaConexion;
+
+    //    SqlCommand cmd = new SqlCommand();
+    //    cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
+    //    cmd.CommandText = "Usuario_BuscarUsuario";//indico el nombre del procedimiento almacenado a ejecutar
+
+    //    SqlDataReader drResults;
+
+    //    cmd.Connection = cn;
+    //    cn.Open();//abrimos la conexion
+    //    drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
+    //    //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
+
+    //    UsuarioEventosUY unUsuario = new UsuarioEventosUY();
+
+    //    while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
+    //    {
+    //        string MailPublicoLectura = drResults["MailUsuario"].ToString();
+    //        string PasswordLectura = drResults["PassUsuario"].ToString();
+
+    //        if (MailPublicoLectura == UserName)
+    //        {
+    //            UsuarioEventosUY r = new UsuarioEventosUY();
+    //            r.idUsuario = Convert.ToInt32(drResults["idUsuario"]);
+    //            r.Email = drResults["MailUsuario"].ToString();//casteamos los datos del registro leido y cargamos las propiedades
+    //            r.Password = drResults["PassUsuario"].ToString();
+    //            r.idRol = Convert.ToInt32(drResults["idRol"]);
+    //            unUsuario = r;
+    //            unUsuario = cargarDatosDeUsuario(unUsuario);
+    //            return unUsuario;
+    //        }
+
+    //    }
+
+    //    drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
+    //    cn.Close(); //cerramos la conexion explicitamente
+    //    return unUsuario;
+
+    //}
+
     //CARGAR DATOS DE EMPRESA
-    public UsuarioEventosUY cargarDatosDeUsuario(UsuarioEventosUY unUsuario)
+
+    //CargarDatosDeUsuario
+    public UsuarioEventosUY cargarDatosDeUsuario()
     {
 
         SqlConnection cn = new SqlConnection();//Creamos y configuramos la conexion.
@@ -200,23 +242,22 @@ public class UsuarioEventosUY
         drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
         //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
 
-        while (drResults.Read())
-        { //Mientras tenga datos para leer
+        while (drResults.Read())//Mientras tenga datos para leer
+        { 
             int idUsuario = Convert.ToInt32(drResults["idUsuario"]);
-            if (unUsuario.idUsuario == idUsuario)
+            if (this.idUsuario == idUsuario)
             {
-                unUsuario.idAdmin = Convert.ToInt32(drResults["idAdmin"]);
-                unUsuario.Nombre = drResults["Nombre"].ToString();
-                unUsuario.Apellido = drResults["Apellido"].ToString();
-                unUsuario.NroFuncionario = Convert.ToInt32(drResults["NroFuncionario"]);
-                unUsuario.Telefono = drResults["Telefono"].ToString();
-                unUsuario.Cargo = drResults["Cargo"].ToString();
-                return unUsuario;
+                this.idAdmin = Convert.ToInt32(drResults["idAdmin"]);
+                this.Nombre = drResults["Nombre"].ToString();
+                this.Apellido = drResults["Apellido"].ToString();
+                this.NroFuncionario = Convert.ToInt32(drResults["NroFuncionario"]);
+                this.Telefono = drResults["Telefono"].ToString();
+                this.Cargo = drResults["Cargo"].ToString();
+                return this;
             }
         }
-        return unUsuario;
+        return this;
     }
-
 
     //Guardar Usuario Euy
     public int GuardarUsuarioEventosUY()
@@ -256,11 +297,22 @@ public class UsuarioEventosUY
         }
         return afectadas;
     }
-       
+
+
+    //-------------------------- CONSTRUCTORES ------------------------------------//
+    #region CONSTRUCTORES
+
     public UsuarioEventosUY()
-	{
-		//
-		// TODO: Agregar aquí la lógica del constructor
-		//
-	}
+	{}
+
+    //Carga Datos
+    public UsuarioEventosUY(string UName, string Pass)
+    {
+        Email = UName;
+        Password = Pass;
+    }
+
+    #endregion CONSTRUCTORES
+    //-------------------------- END CONSTRUCTORES --------------------------------//
+
 }

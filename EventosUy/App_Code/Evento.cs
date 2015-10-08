@@ -21,11 +21,14 @@ public class Evento
     private DateTime mFecha;    
     private string mHora;    
     private string mNombreLugar;    
-    private string mDireccionLugar;    
-    private string mImagen;
+    private string mDireccionLugar;
+    private string mBarrioLugar;
+    private System.IO.Stream mImagen;
+    private string mCapasidadMaxima;    
     private string mPrecio;   
     private string mEstado;
-    
+
+        
     #endregion
     #region Propiedades
     public int idEvento
@@ -78,10 +81,20 @@ public class Evento
         get { return mDireccionLugar; }
         set { mDireccionLugar = value; }
     }
-    public string Imagen
+    public System.IO.Stream Imagen
     {
         get { return mImagen; }
         set { mImagen = value; }
+    }
+    public string BarrioLugar
+    {
+        get { return mBarrioLugar; }
+        set { mBarrioLugar = value; }
+    }
+    public string CapasidadMaxima
+    {
+        get { return mCapasidadMaxima; }
+        set { mCapasidadMaxima = value; }
     }
     public string Precio
     {
@@ -110,26 +123,20 @@ public class Evento
     //}
 
 
+    //-------------------------- ACTIVE RECORD ------------------------------------//
+    #region ACTIVE RECORD
 
-    //test
-    //Evento E = new Evento();
+    public int guardar(){
 
-    //test
-
-
-
-    //Guargua el objeto Evento
-    public int GuardarEvento(string Titulo, string Descripcion, string NombreArtista, string Fecha, string Hora, string NombreLugar, string DireccionLugar, string BarrioLugar, string CapasidadMaxima, System.IO.Stream Imagen, string Precio, string userEmail)
-    {
         //string de conexion
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
 
-        Empresa unaEmpresa = Empresa.Instancia.cargarDatosEmpresa(userEmail);
-        int idEmpresa = unaEmpresa.idEmpresa; //aca va la referencia a la empresa que esta actualmente.
+        Empresa unaEmpresa = Empresa.cargarEmpresaMail(this.IdEmpresa);
+        //int idEmpresa = unaEmpresa.idEmpresa; //aca va la referencia a la empresa que esta actualmente.
         int afectadas = 0;
-        
+
         try
         {
             using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
@@ -137,19 +144,19 @@ public class Evento
                 cmd.Connection = cn;
                 cmd.CommandText = "Eventos_Insert"; //consulta a ejecutar
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
-                cmd.Parameters.Add(new SqlParameter("@Titulo", Titulo));
-                cmd.Parameters.Add(new SqlParameter("@Descripcion", Descripcion));
-                cmd.Parameters.Add(new SqlParameter("@NombreArtistas", NombreArtista));
-                cmd.Parameters.Add(new SqlParameter("@Fecha", Fecha));
-                cmd.Parameters.Add(new SqlParameter("@Hora", Hora));
-                cmd.Parameters.Add(new SqlParameter("@NombreLugar", NombreLugar));
-                cmd.Parameters.Add(new SqlParameter("@DireccionLugar", DireccionLugar));
-                cmd.Parameters.Add(new SqlParameter("@BarrioLugar", BarrioLugar));
-                cmd.Parameters.Add(new SqlParameter("@CapasidadMaxima", CapasidadMaxima));
-                cmd.Parameters.Add(new SqlParameter("@Imagen", Imagen));
-                cmd.Parameters.Add(new SqlParameter("@Precio",Precio));
+                cmd.Parameters.Add(new SqlParameter("@Titulo", this.Titulo));
+                cmd.Parameters.Add(new SqlParameter("@Descripcion", this.Descripcion));
+                cmd.Parameters.Add(new SqlParameter("@NombreArtistas", this.NombreArtistas));
+                cmd.Parameters.Add(new SqlParameter("@Fecha", this.Fecha));
+                cmd.Parameters.Add(new SqlParameter("@Hora", this.Hora));
+                cmd.Parameters.Add(new SqlParameter("@NombreLugar", this.NombreLugar));
+                cmd.Parameters.Add(new SqlParameter("@DireccionLugar", this.DireccionLugar));
+                cmd.Parameters.Add(new SqlParameter("@BarrioLugar", this.BarrioLugar));
+                cmd.Parameters.Add(new SqlParameter("@CapasidadMaxima", this.CapasidadMaxima));
+                cmd.Parameters.Add(new SqlParameter("@Imagen", this.Imagen));
+                cmd.Parameters.Add(new SqlParameter("@Precio", this.Precio));
                 cmd.Parameters.Add(new SqlParameter("@Estado", "A"));
-                cmd.Parameters.Add(new SqlParameter("@idEmpresa", idEmpresa));
+                cmd.Parameters.Add(new SqlParameter("@idEmpresa", this.IdEmpresa));
 
                 // CREAR FOREACH PARA QUE EL PRECIO SEA UNA LISTADO
                 //foreach (string unPrecio in this.mPrecio)
@@ -174,6 +181,18 @@ public class Evento
 
         }
         return afectadas;
+    }
+
+
+    #endregion ACTIVE RECORD
+    //-------------------------- ACTIVE RECORD ------------------------------------//
+
+
+    //Guargua el objeto Evento
+    public static int GuardarEvento(string Titulo, string Descripcion, string NombreArtista, System.DateTime Fecha, string Hora, string NombreLugar, string DireccionLugar, string BarrioLugar, string CapasidadMaxima, System.IO.Stream Imagen, string Precio, string userEmail)
+    {
+        Evento ev = new Evento(Titulo, Descripcion, NombreArtista, Fecha, Hora, NombreLugar, DireccionLugar, BarrioLugar, CapasidadMaxima, Imagen, Precio, userEmail);
+        return ev.guardar();
     }
 
     //Baja de evento - Borrar Evento
@@ -209,4 +228,34 @@ public class Evento
         }
         return retorno;
     }
+
+
+    //-------------------------- CONSTRUCTORES ------------------------------------//
+    #region CONSTRUCTORES
+
+    public Evento(){}
+
+    //Guardar Evento
+    public Evento(string Tit, string Descri, string NArtista, DateTime Fec, string Hor, string NLugar, string DLugar, string BLugar, string CapMax, System.IO.Stream Img, string Pre, string userE)
+    {
+        // TODO: Complete member initialization
+        this.Titulo = Tit;
+        this.Descripcion = Descri;
+        this.NombreArtistas = NArtista;
+        this.Fecha = Fec;
+        this.Hora = Hor;
+        this.NombreLugar = NLugar;
+        this.DireccionLugar = DLugar;
+        this.BarrioLugar = BLugar;
+        this.CapasidadMaxima = CapMax;
+        this.Imagen = Img;
+        this.Precio = Pre;
+        this.IdEmpresa = userE;
+    }
+
+    #endregion CONSTRUCTORES
+    //-------------------------- END CONSTRUCTORES --------------------------------//
+
+
+
 }
