@@ -55,8 +55,8 @@
                     <ul id="divMenuLogeado" visible=false class="nav navbar-nav" runat="server">
                         <li><a href="../Account/Register">Alta Emp</a></li>
                         <li><a runat="server" href="~/Account/listado-eventos.aspx">ListadoEven</a></li>
-                        <li><a runat="server" href="~/Account/listado-empresas.aspx">ListadoEmp</a></li>
-                        <li><a runat="server" href="~/Account/busqueda-empresa.aspx">BusquedaE</a></li>
+                        <li><a runat="server" href="~/Account/listado-empresas.aspx">ListadoEmp</a></li>                        
+                        <li><a runat="server" href="~/Account/buscar-evento-fecha.aspx">Busqueda Evento</a></li>
                     </ul>
                     <!-- MENU LOGEADO -->
 
@@ -64,7 +64,6 @@
                     <ul id="divMenuLogeadoUsuario" visible=false class="nav navbar-nav" runat="server">
                         <li><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Account/crear-evento">Crear Evento</asp:HyperLink></li>
                         <li><a runat="server" href="~/Account/listado-eventos.aspx">Historial Eventos</a></li>
-                        <li><a>Busqueda Fecha</a></li>
                     </ul>
                     <!-- MENU LOGEADO -->
 

@@ -1,6 +1,6 @@
-create database EventosUY;
+create database EventosUY2;
 
-use EventosUY;
+use EventosUY2;
 
 --Roles (IdRol, NombreRol, DetalleRol)
 
@@ -100,10 +100,10 @@ create table Eventos(
 )
 
 insert into Eventos(Titulo, Descripcion, NombreArtistas, Fecha, Hora, NombreLugar, DireccionLugar, BarrioLugar, CapasidadMaxima, Imagen, Precio, Estado, IdEmpresa) values	
-	('Samba','Evento de Samba','Pedro','15/12/2015','21:00:00','Lugar2','Calle 2','Barrio1',500,000000,'500','A', 13),
-	('Rock','Evento de Rock','Juan','15/12/2015','21:00:00','Lugar2','Calle 2','Barrio1',500,000000,'500','A', 14),
-	('Pop','Evento de Pop','Mario','15/12/2015','21:00:00','Lugar2','Calle 2','Barrio1',500,000000,'500','A', 13),
-	('Tango','Evento de Tango','Ale','15/12/2015','21:00:00','Lugar2','Calle 2','Barrio1',500,000000,'500','A', 15)
+	('Samba','Evento de Samba','Pedro','15/12/2015','21:00:00','Lugar2','Calle 2','Barrio1',500,000000,'500','A', 1),
+	('Rock','Evento de Rock','Juan','15/12/2015','21:00:00','Lugar2','Calle 2','Barrio1',500,000000,'500','A', 2),
+	('Pop','Evento de Pop','Mario','15/12/2015','21:00:00','Lugar2','Calle 2','Barrio1',500,000000,'500','A', 1),
+	('Tango','Evento de Tango','Ale','15/12/2015','21:00:00','Lugar2','Calle 2','Barrio1',500,000000,'500','A', 3)
 
 select *
 from Eventos

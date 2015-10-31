@@ -59,8 +59,6 @@ public partial class Account_Register : Page
             this.lblErrorMsj.InnerHtml = "<div class='alert alert-warning'><button data-dismiss='alert' class='close' type='button'>×</button><span>Ya existe una empresa con ese Mail Principal, debe utilizar otro.</span></div>";
             this.formMailPrincipal.Attributes.Add("class", "has-error");
         }
-
-        
     }
 
 }

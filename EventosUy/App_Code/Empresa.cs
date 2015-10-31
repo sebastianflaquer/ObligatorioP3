@@ -517,8 +517,7 @@ public class Empresa
 
     //LISTAR EVENTOS
     public static List<Evento> listarEvento(int idEmpresa)
-    {
-        
+    {   
         List<Evento> lst = new List<Evento>();
         SqlCommand cmd = new SqlCommand();
         cmd.CommandType = CommandType.StoredProcedure;
@@ -565,8 +564,7 @@ public class Empresa
         drResults.Close();//luego de leer todos los registros le indicamos al reader que cierre la conexion
         cn.Close(); //cerramos la conexion explicitamente
         return lst;
-    }
-    
+    }    
     //CARGAR DATOS DE EMPRESA
     
 

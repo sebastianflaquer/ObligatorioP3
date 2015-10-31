@@ -266,7 +266,6 @@ public class Evento
     #endregion ACTIVE RECORD
     //-------------------------- ACTIVE RECORD ------------------------------------//
 
-
     //Guargua el objeto Evento
     public static int GuardarEvento(string Titulo, string Descripcion, string NombreArtista, System.DateTime Fecha, string Hora, string NombreLugar, string DireccionLugar, string BarrioLugar, string CapasidadMaxima, System.IO.Stream Imagen, string Precio, string userEmail)
     {

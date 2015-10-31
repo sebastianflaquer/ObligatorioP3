@@ -17,8 +17,7 @@ public partial class Account_Login : Page
             else //Si no esta logeado
             {
 
-            }
-            
+            }            
         }
 
         protected void LogIn(object sender, EventArgs e)
