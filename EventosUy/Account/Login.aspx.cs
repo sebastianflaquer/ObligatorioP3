@@ -9,14 +9,16 @@ public partial class Account_Login : Page
 {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             if ((Boolean)Session["logueado"]) //Si esta logeado
             {
                 Response.Redirect("../");
             }
             else //Si no esta logeado
             {
-                
+
             }
+            
         }
 
         protected void LogIn(object sender, EventArgs e)

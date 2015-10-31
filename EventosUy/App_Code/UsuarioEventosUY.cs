@@ -22,7 +22,8 @@ public class UsuarioEventosUY
     private int mNroFuncionario;    
     private string mTelefono;    
     private string mCargo;
-    private int midRol;   
+    private int midRol;
+    private string mail;   
     
     #endregion
     #region Propiedades
@@ -130,6 +131,45 @@ public class UsuarioEventosUY
         return this;
     }
 
+    //Cargar Datos
+    public UsuarioEventosUY cargarDatos()
+    {
+        SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
+
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandType = CommandType.StoredProcedure;//indico que voy a ejecutar un procedimiento almacenado en la bd
+        cmd.CommandText = "Usuario_BuscarUsuario";//indico el nombre del procedimiento almacenado a ejecutar
+
+        SqlDataReader drResults;
+
+        cmd.Connection = cn;
+        cn.Open();//abrimos la conexion
+        drResults = cmd.ExecuteReader(CommandBehavior.CloseConnection);//ejecutamos la consulta de seleccion
+        //CommandBehavior.CloseConnection da la capacidad al Reader de mantener la conexion viva hasta que este la cierre
+
+        while (drResults.Read())//leemos el resultado mientras hay tuplas para traer
+        {
+            string MailPublicoLectura = drResults["MailUsuario"].ToString();
+            string PasswordLectura = drResults["PassUsuario"].ToString();
+
+            if (MailPublicoLectura == this.Email)
+            {
+                this.idUsuario = Convert.ToInt32(drResults["idUsuario"]);
+                this.idRol = Convert.ToInt32(drResults["idRol"]);
+                this.cargarDatosDeUsuario();
+                return this;
+            }
+        }
+        return this;
+    }
+
+    //public UsuarioEventosUY borrar(){
+    
+    
+    //}
+
     #endregion ACTIVE RECORD
     //-------------------------- ACTIVE RECORD ------------------------------------//
 
@@ -138,6 +178,13 @@ public class UsuarioEventosUY
     {
         UsuarioEventosUY Euy = new UsuarioEventosUY(mail, pass);
         return Euy.cargar();
+    }
+
+    //CARGAR USUARIO
+    public static UsuarioEventosUY CargarAdminMail(string mail)
+    {
+        UsuarioEventosUY Euy = new UsuarioEventosUY(mail);
+        return Euy.cargarDatos();
     }
 
     //VALIDAR SI ES USUARIO O EMPRESA
@@ -310,6 +357,13 @@ public class UsuarioEventosUY
     {
         Email = UName;
         Password = Pass;
+    }
+
+    //Cargar Datos Mail
+    public UsuarioEventosUY(string mail)
+    {
+        // TODO: Complete member initialization
+        this.Email = mail;
     }
 
     #endregion CONSTRUCTORES

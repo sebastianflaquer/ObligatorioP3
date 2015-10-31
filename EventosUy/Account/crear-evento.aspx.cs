@@ -29,10 +29,10 @@ public partial class Account_crear_evento : System.Web.UI.Page
         //{
         // //validar aca que el mail no se repita
         //}
+
         string mail = Session["email"].ToString();
         int idRol = Convert.ToInt32(Session["idRol"]);
         //bool nombreExiste = Evento.ValidarNombre(EventoTitulo.Text);
-
         //DateTime date = Convert.ToDateTime(lblbilldate.Text);
 
         DateTime Fecha = Convert.ToDateTime(EventoFecha.Text);
@@ -52,10 +52,10 @@ public partial class Account_crear_evento : System.Web.UI.Page
             mail
         );
 
-        //if (afectadas == -1) {
-        //    this.errorField.Visible = true;
-        //    this.lblErrorMsj.InnerHtml = "<div class='alert alert-success'><button data-dismiss='alert' class='close' type='button'>×</button><span>Evento Creado con Exito</span></div>";
-        //}
+        if (afectadas == -1) {
+            this.errorField.Visible = true;
+            this.lblErrorMsj.InnerHtml = "<div class='alert alert-success'><button data-dismiss='alert' class='close' type='button'>×</button><span>Evento Creado con Exito</span></div>";
+        }
     }
 
     

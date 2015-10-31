@@ -13,7 +13,7 @@ public class Evento
 {
     #region Atributos
     private int midEvento;    
-    private string mIdEmpresa;
+    private int mIdEmpresa;
     private string mNombreEmpresa;
     private string mTitulo;
     private string mDescripcion;    
@@ -27,6 +27,7 @@ public class Evento
     private string mCapasidadMaxima;    
     private string mPrecio;   
     private string mEstado;
+    private int idEvento1;
 
         
     #endregion
@@ -36,7 +37,7 @@ public class Evento
         get { return midEvento; }
         set { midEvento = value; }
     }
-    public string IdEmpresa
+    public int IdEmpresa
     {
         get { return mIdEmpresa; }
         set { mIdEmpresa = value; }
@@ -125,7 +126,8 @@ public class Evento
 
     //-------------------------- ACTIVE RECORD ------------------------------------//
     #region ACTIVE RECORD
-
+    
+    //GUARDAR EVENTO
     public int guardar(){
 
         //string de conexion
@@ -133,7 +135,6 @@ public class Evento
         string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
         cn.ConnectionString = cadenaConexion;
 
-        Empresa unaEmpresa = Empresa.cargarEmpresaMail(this.IdEmpresa);
         //int idEmpresa = unaEmpresa.idEmpresa; //aca va la referencia a la empresa que esta actualmente.
         int afectadas = 0;
 
@@ -178,26 +179,13 @@ public class Evento
         }
         finally
         {
-
         }
         return afectadas;
     }
 
+    //BORRAR EVENTO
+    public bool borrar(){
 
-    #endregion ACTIVE RECORD
-    //-------------------------- ACTIVE RECORD ------------------------------------//
-
-
-    //Guargua el objeto Evento
-    public static int GuardarEvento(string Titulo, string Descripcion, string NombreArtista, System.DateTime Fecha, string Hora, string NombreLugar, string DireccionLugar, string BarrioLugar, string CapasidadMaxima, System.IO.Stream Imagen, string Precio, string userEmail)
-    {
-        Evento ev = new Evento(Titulo, Descripcion, NombreArtista, Fecha, Hora, NombreLugar, DireccionLugar, BarrioLugar, CapasidadMaxima, Imagen, Precio, userEmail);
-        return ev.guardar();
-    }
-
-    //Baja de evento - Borrar Evento
-    public bool borrarEvento(int idEvento)
-    {
         bool retorno = false;
 
         SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
@@ -211,7 +199,7 @@ public class Evento
                 cmd.Connection = cn;
                 cmd.CommandText = "Evento_EliminarPorIdEvento"; //consulta a ejecutar
                 cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
-                cmd.Parameters.Add(new SqlParameter("@idEvento", idEvento));//agregamos parametros para la consulta
+                cmd.Parameters.Add(new SqlParameter("@idEvento", this.idEvento));//agregamos parametros para la consulta
                 cn.Open();//abrimos conexion
                 cmd.ExecuteNonQuery();
                 retorno = true;
@@ -230,13 +218,83 @@ public class Evento
     }
 
 
+    public bool borrarTodos(){
+
+        bool retorno = false;
+
+        SqlConnection cn = new SqlConnection(); //creamos y configuramos la conexion
+        string cadenaConexion = ConfigurationManager.ConnectionStrings["conexionBD"].ConnectionString;
+        cn.ConnectionString = cadenaConexion;
+
+        SqlTransaction trn = null;
+
+        try
+        {
+            using (SqlCommand cmd = new SqlCommand()) //creamos y configuramso el comando
+            {
+                cmd.Connection = cn;
+                cmd.CommandType = CommandType.StoredProcedure; //tipo de consulta
+                cmd.CommandText = "Eliminar_EventoxEmpresa"; //consulta a ejecutar
+                cmd.Parameters.Clear();//Limpiamos los Parametros
+                cmd.Parameters.Add(new SqlParameter("@idEmpresa", this.IdEmpresa));//agregamos parametros para la consulta
+
+                cn.Open();//abrimos conexion
+
+                //CREAMOS LA TRANSACCION
+                trn = cn.BeginTransaction();//iniciamos la transaccion 
+                cmd.Transaction = trn;
+
+                cmd.ExecuteNonQuery();
+
+                retorno = true;
+                cn.Close();//cerramos conexion
+            }
+        }
+        catch (SqlException ex)
+        {
+            //loguear excepcion
+            trn.Rollback();//Si hay un error Hace un RollBack para dejar sin efecto las consultas
+        }
+        finally
+        {
+            if (cn.State == ConnectionState.Open)
+                cn.Close(); //cerramos la conexion
+        }
+        return retorno;
+    }
+
+    #endregion ACTIVE RECORD
+    //-------------------------- ACTIVE RECORD ------------------------------------//
+
+
+    //Guargua el objeto Evento
+    public static int GuardarEvento(string Titulo, string Descripcion, string NombreArtista, System.DateTime Fecha, string Hora, string NombreLugar, string DireccionLugar, string BarrioLugar, string CapasidadMaxima, System.IO.Stream Imagen, string Precio, string userEmail)
+    {
+        Empresa unaEmpresa = Empresa.cargarEmpresaMail(userEmail);
+        Evento ev = new Evento(Titulo, Descripcion, NombreArtista, Fecha, Hora, NombreLugar, DireccionLugar, BarrioLugar, CapasidadMaxima, Imagen, Precio, unaEmpresa.idEmpresa);
+        return ev.guardar();
+    }
+
+    //Baja de evento - Borrar Evento
+    public static bool borrarEvento(int idEvento)
+    {
+        Evento ev = new Evento(idEvento);
+        return ev.borrar();
+    }
+
+    public static bool borrarEventosXEmpresa(int idEmp, int idR)
+    {
+        Evento ev = new Evento(idEmp, idR);
+        return ev.borrarTodos();
+    }
+
     //-------------------------- CONSTRUCTORES ------------------------------------//
     #region CONSTRUCTORES
 
     public Evento(){}
 
     //Guardar Evento
-    public Evento(string Tit, string Descri, string NArtista, DateTime Fec, string Hor, string NLugar, string DLugar, string BLugar, string CapMax, System.IO.Stream Img, string Pre, string userE)
+    public Evento(string Tit, string Descri, string NArtista, DateTime Fec, string Hor, string NLugar, string DLugar, string BLugar, string CapMax, System.IO.Stream Img, string Pre, int userE)
     {
         // TODO: Complete member initialization
         this.Titulo = Tit;
@@ -253,9 +311,18 @@ public class Evento
         this.IdEmpresa = userE;
     }
 
+    //Borrar Evento
+    public Evento(int idEvento1)
+    {   
+        this.idEvento = idEvento1;
+    }
+
+    public Evento(int idEmp, int id)
+    {
+        this.mIdEmpresa = idEmp;
+    }
+
     #endregion CONSTRUCTORES
     //-------------------------- END CONSTRUCTORES --------------------------------//
-
-
 
 }

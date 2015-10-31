@@ -14,10 +14,10 @@ public partial class Account_Register : Page
         {
             if (Convert.ToInt32(Session["idRol"]) == 2)//Si es un Administrador
             {
-                //Puede registrar una empresa
+                Response.Redirect("../");//No puede registar una empresa
             }
             else {
-                Response.Redirect("../");//No puede registar una empresa
+                //Puede registrar una empresa
             } 
         }
         else //Si no esta logeado

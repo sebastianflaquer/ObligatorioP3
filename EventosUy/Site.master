@@ -54,7 +54,6 @@
                     <!-- MENU LOGEADO EMPRESA -->
                     <ul id="divMenuLogeado" visible=false class="nav navbar-nav" runat="server">
                         <li><a href="../Account/Register">Alta Emp</a></li>
-                        <li><a>Baja Even</a></li>
                         <li><a runat="server" href="~/Account/listado-eventos.aspx">ListadoEven</a></li>
                         <li><a runat="server" href="~/Account/listado-empresas.aspx">ListadoEmp</a></li>
                         <li><a runat="server" href="~/Account/busqueda-empresa.aspx">BusquedaE</a></li>

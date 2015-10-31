@@ -12,12 +12,9 @@ public partial class Account_Default : System.Web.UI.Page
     {
         if ((Boolean)Session["logueado"]) //Si esta logeado
         {
-            if (Convert.ToInt32(Session["idRol"]) == 1)
-            { //Si es Empresa
-                Response.Redirect("../Account/Login"); //Si no esta logeado
-            }
-            else
-            {//Si es admin
+            if (Convert.ToInt32(Session["idRol"]) == 1)//Si es Empresa
+            { 
+                
                 List<Empresa> listaEmpresa = new List<Empresa>();
                 listaEmpresa = Empresa.listarEmpresas();
                 if (listaEmpresa.Count > 0)
@@ -25,12 +22,17 @@ public partial class Account_Default : System.Web.UI.Page
                     this.gridListarEmpresas.DataSource = listaEmpresa;
                     this.gridListarEmpresas.DataBind();
                 }
-                else {
+                else
+                {
                     //Mensaje no hay tantos
                     this.errorField.Visible = true;
                     this.lblErrorMsj.InnerHtml = "<div class='alert alert-warning'><button data-dismiss='alert' class='close' type='button'>×</button><strong>Ohh Margot!  </strong><span>No hay Empresas que mostrar.</span></div>";
-                
+
                 }
+            }
+            else
+            {//Si es admin
+                Response.Redirect("../Account/Login"); //Si no esta logeado
             }
         }
         else
